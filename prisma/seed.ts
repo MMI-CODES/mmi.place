@@ -50,8 +50,12 @@ const initialAuthors: SeedAuthor[] = [
 ];
 
 const loan = initialAuthors.find((author) => author.username === "loan.jean");
-const rayan = initialAuthors.find((author) => author.username === "rayan.ansar");
-const bastian = initialAuthors.find((author) => author.username === "bastian.noel");
+const rayan = initialAuthors.find(
+	(author) => author.username === "rayan.ansar",
+);
+const bastian = initialAuthors.find(
+	(author) => author.username === "bastian.noel",
+);
 
 if (!loan || !rayan || !bastian) {
 	throw new Error("Seed authors not found in initialAuthors.");
@@ -188,7 +192,19 @@ const initialChannels = [
 	},
 ];
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+const connectionString =
+	process.env.DATABASE_DIRECT_URL || process.env.DATABASE_URL;
+
+if (!connectionString) {
+	throw new Error(
+		"Missing DATABASE_URL or DATABASE_DIRECT_URL in environment.",
+	);
+}
+
+const adapter = new PrismaPg({
+	connectionString,
+	max: 1,
+});
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
@@ -209,8 +225,9 @@ async function main() {
 	}
 
 	for (const tool of initialData) {
-		const authorConnections = tool.authors
-			.map((author) => ({ email: author.email }));
+		const authorConnections = tool.authors.map((author) => ({
+			email: author.email,
+		}));
 
 		await prisma.tool.upsert({
 			where: { name: tool.name },
