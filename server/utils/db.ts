@@ -11,7 +11,7 @@ if (!connectionString) {
 }
 
 const prismaClientSingleton = () => {
-	const pool = new PrismaPg({ connectionString, max: 1 });
+	const pool = new PrismaPg({ connectionString, max: 10 });
 	return new PrismaClient({ adapter: pool });
 };
 
