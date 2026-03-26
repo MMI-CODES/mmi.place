@@ -1,0 +1,305 @@
+.markdown,
+.prose {
+	color: var(--color-on-surface);
+	line-height: 1.75;
+	word-break: break-word;
+}
+
+.markdown > *:first-child,
+.prose > *:first-child {
+	margin-top: 0;
+}
+
+.markdown > *:last-child,
+.prose > *:last-child {
+	margin-bottom: 0;
+}
+
+.markdown p,
+.prose p {
+	margin: 1rem 0;
+}
+
+.markdown h1,
+.prose h1,
+.markdown h2,
+.prose h2,
+.markdown h3,
+.prose h3,
+.markdown h4,
+.prose h4,
+.markdown h5,
+.prose h5,
+.markdown h6,
+.prose h6 {
+	margin-top: 2rem;
+	margin-bottom: 0.8rem;
+	line-height: 1.25;
+	font-weight: 700;
+	letter-spacing: -0.015em;
+	text-wrap: balance;
+	color: var(--color-on-surface);
+	scroll-margin-top: 6rem;
+}
+
+.markdown h1,
+.prose h1 {
+	font-size: var(--text-4xl);
+	margin-top: 0.5rem;
+}
+
+.markdown h2,
+.prose h2 {
+	font-size: var(--text-3xl);
+	padding-bottom: 0.35rem;
+	border-bottom: 1px solid var(--color-surface-border);
+}
+
+.markdown h3,
+.prose h3 {
+	font-size: var(--text-2xl);
+}
+
+.markdown h4,
+.prose h4 {
+	font-size: var(--text-xl);
+}
+
+.markdown h5,
+.prose h5 {
+	font-size: var(--text-lg);
+}
+
+.markdown h6,
+.prose h6 {
+	font-size: var(--text-base);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--color-subtext);
+}
+
+.markdown a,
+.prose a {
+	color: var(--color-primary);
+	text-decoration-line: underline;
+	text-decoration-color: color-mix(
+		in srgb,
+		var(--color-primary) 40%,
+		transparent
+	);
+	text-underline-offset: 0.16em;
+	transition:
+		color 0.2s ease,
+		text-decoration-color 0.2s ease;
+}
+
+.markdown a:hover,
+.prose a:hover {
+	color: var(--color-primary-hover);
+	text-decoration-color: var(--color-primary-hover);
+}
+
+.markdown strong,
+.prose strong {
+	font-weight: 700;
+}
+
+.markdown em,
+.prose em {
+	font-style: italic;
+}
+
+.markdown hr,
+.prose hr {
+	margin: 2rem 0;
+	border: 0;
+	border-top: 1px solid var(--color-surface-border);
+}
+
+.markdown ul,
+.prose ul,
+.markdown ol,
+.prose ol {
+	margin: 1rem 0;
+	padding-left: 1.35rem;
+}
+
+.markdown ul,
+.prose ul {
+	list-style: disc;
+}
+
+.markdown ol,
+.prose ol {
+	list-style: decimal;
+}
+
+.markdown li,
+.prose li {
+	margin: 0.35rem 0;
+}
+
+.markdown li > ul,
+.prose li > ul,
+.markdown li > ol,
+.prose li > ol {
+	margin-top: 0.4rem;
+	margin-bottom: 0.4rem;
+}
+
+.markdown blockquote,
+.prose blockquote {
+	margin: 1.5rem 0;
+	padding: 0.9rem 1.2rem;
+	border-left: 4px solid var(--color-primary);
+	background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+	border-radius: 0.6rem;
+	color: color-mix(
+		in srgb,
+		var(--color-on-surface) 85%,
+		var(--color-subtext)
+	);
+}
+
+.markdown blockquote > :first-child,
+.prose blockquote > :first-child {
+	margin-top: 0;
+}
+
+.markdown blockquote > :last-child,
+.prose blockquote > :last-child {
+	margin-bottom: 0;
+}
+
+.markdown code,
+.prose code {
+	padding: 0.12rem 0.4rem;
+	border: 1px solid var(--color-surface-border);
+	border-radius: 0.38rem;
+	background: color-mix(in srgb, var(--color-button) 70%, transparent);
+	font-size: 0.92em;
+	font-family:
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+		"Liberation Mono", "Courier New", monospace;
+	color: color-mix(
+		in srgb,
+		var(--color-on-surface) 90%,
+		var(--color-primary)
+	);
+}
+
+.markdown pre,
+.prose pre {
+	margin: 1.2rem 0;
+	padding: 1rem 1.1rem;
+	overflow-x: auto;
+	border: 1px solid var(--color-surface-border);
+	border-radius: 0.85rem;
+	background: color-mix(in srgb, var(--color-surface) 75%, transparent);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.markdown pre code,
+.prose pre code {
+	padding: 0;
+	border: 0;
+	background: transparent;
+	border-radius: 0;
+	color: inherit;
+	font-size: 0.95em;
+	line-height: 1.6;
+}
+
+.markdown table,
+.prose table {
+	width: 100%;
+	margin: 1.25rem 0;
+	border-collapse: collapse;
+	border-radius: 0.85rem;
+	overflow: hidden;
+	border: 1px solid var(--color-surface-border);
+	background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+}
+
+.markdown thead,
+.prose thead {
+	background: color-mix(in srgb, var(--color-button) 75%, transparent);
+}
+
+.markdown th,
+.prose th,
+.markdown td,
+.prose td {
+	padding: 0.65rem 0.85rem;
+	text-align: left;
+	vertical-align: top;
+	border-bottom: 1px solid var(--color-surface-border);
+}
+
+.markdown tbody tr:last-child td,
+.prose tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+.markdown img,
+.prose img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+	margin: 1rem auto;
+	border-radius: 0.9rem;
+	border: 1px solid var(--color-surface-border);
+}
+
+.markdown kbd,
+.prose kbd {
+	display: inline-block;
+	padding: 0.1rem 0.38rem;
+	margin: 0 0.06rem;
+	border-radius: 0.34rem;
+	font-size: 0.84em;
+	line-height: 1.2;
+	font-weight: 600;
+	border: 1px solid var(--color-surface-border);
+	background: color-mix(in srgb, var(--color-button) 80%, transparent);
+	box-shadow: inset 0 -1px 0
+		color-mix(in srgb, var(--color-on-surface) 20%, transparent);
+}
+
+.markdown :where(.footnotes),
+.prose :where(.footnotes) {
+	margin-top: 2rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--color-surface-border);
+	font-size: var(--text-sm);
+	color: var(--color-subtext);
+}
+
+@media (max-width: 640px) {
+	.markdown h1,
+	.prose h1 {
+		font-size: var(--text-3xl);
+	}
+
+	.markdown h2,
+	.prose h2 {
+		font-size: var(--text-2xl);
+	}
+
+	.markdown h3,
+	.prose h3 {
+		font-size: var(--text-xl);
+	}
+
+	.markdown pre,
+	.prose pre {
+		padding: 0.85rem 0.9rem;
+	}
+
+	.markdown th,
+	.prose th,
+	.markdown td,
+	.prose td {
+		padding: 0.55rem 0.65rem;
+	}
+}

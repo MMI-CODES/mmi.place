@@ -63,7 +63,7 @@ onMounted(refreshSession);
 	<main class="container py-16 max-w-xl space-y-4">
 		<h1 class="text-3xl font-bold mb-4">Connexion</h1>
 		<p class="text-subtext mb-8">
-			Connectez-vous avec Authentik pour acceder a votre session.
+			Connectez-vous pour acceder à votre session.
 		</p>
 
 		<div class="space-y-4">
@@ -85,7 +85,7 @@ onMounted(refreshSession);
 
 			<div class="flex gap-3">
 				<Button
-					label="Se connecter avec Authentik"
+					:label="session.authenticated ? 'Changer de compte' : 'Se connecter'"
 					btnStyle="NEUTRAL"
 					:handler="startLogin"
 				/>
@@ -101,18 +101,18 @@ onMounted(refreshSession);
 		<section
 			class="bg-surface text-on-surface border border-surface-border rounded-3xl px-8 py-6 space-y-4"
 		>
-			<h2 class="text-xl font-semibold mb-2">Compte Authentik</h2>
-			<p>
-				La connexion utilise un service tiers (Authentik) pour gérer les
-				sessions, vos identifiants UVSQ ne fonctionnent pas avec ce
-				service.
-			</p>
+			<h2 class="text-xl font-semibold mb-2">Compte MMI Place</h2>
 			<p>
 				Vous devrez créer un compte MMI Place en utilisant votre adresse
 				mail UVSQ (impérativement) et un mot de passe spécifique au
 				site. Une fois votre compte créé, vous pourrez vous connecter
 				avec votre compte Google, Github ou Discord.
 			</p>
+			<Button
+				label="En savoir plus"
+				btnStyle="LINK"
+				handler="/blog/20260323_bienvenue_sur_mmi_place#compte-mmi-place"
+			/>
 		</section>
 	</main>
 </template>

@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 	compatibilityDate: "2025-07-15",
 	devtools: { enabled: true },
 	css: ["./app/assets/css/main.css"],
-	modules: ["motion-v/nuxt", "@vite-pwa/nuxt"],
+	modules: ["motion-v/nuxt", "@vite-pwa/nuxt", "@nuxt/content"],
 	runtimeConfig: {
 		authSessionSecret: process.env.AUTHENTIK_SESSION_SECRET, // Must be at least 16 characters
 		authentik: {
