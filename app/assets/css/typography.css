@@ -15,18 +15,25 @@
 :root {
 	--txt-base: 16px;
 	--font-sans: "SN Pro", sans-serif;
+	--txt-coeff: 1;
+}
+
+@media (max-width: 640px) {
+	:root {
+		--txt-coeff: 0.75;
+	}
 }
 
 :root.text-medium {
-	--txt-base: 16px;
+	--txt-base: calc(16px * var(--txt-coeff));
 }
 
 :root.text-small {
-	--txt-base: 14px;
+	--txt-base: calc(13px * var(--txt-coeff));
 }
 
 :root.text-large {
-	--txt-base: 18px;
+	--txt-base: calc(19px * var(--txt-coeff));
 }
 
 :root.apply-dyslexia {
