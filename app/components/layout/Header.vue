@@ -12,7 +12,7 @@ const { session } = useSession();
 
 const widget = ref<number>(0);
 
-const widgets = [HeaderMessage, HeaderCourse,];
+const widgets = [HeaderCourse, HeaderMessage];
 
 onMounted(() => {
 	let widgetInterval: ReturnType<typeof setInterval> | undefined;
@@ -44,7 +44,7 @@ onMounted(() => {
 		}
 	});
 
-	/*startWidgetInterval();*/
+	startWidgetInterval();
 
 	onUnmounted(() => {
 		clearWidgetInterval();
@@ -56,7 +56,7 @@ onMounted(() => {
 			settings.value.widgets.carrouselRate,
 		],
 		() => {
-			/*startWidgetInterval();*/
+			startWidgetInterval();
 		},
 	);
 });
@@ -74,7 +74,7 @@ onMounted(() => {
 				!
 			</h1>
 			<h1 v-else class="text-4xl font-bold">Tableau de bord</h1>
-			<p class="text-xl text-subtext">
+			<p class="text-xl text-subtext max-md:hidden">
 				Espace réservé aux étudiants MMI de Vélizy. Retrouvez au même
 				endroit tous les outils qui vous sont indispensables, ainsi que
 				certaines ressources et outils mis à disposition par des
@@ -83,7 +83,11 @@ onMounted(() => {
 			<div class="flex gap-2 overflow-x-auto">
 				<Button
 					:icon="AdjustmentsHorizontalIcon"
-					:handler="() => { navigateTo('/settings') }"
+					:handler="
+						() => {
+							navigateTo('/settings');
+						}
+					"
 				/>
 				<div class="flex gap-6 ml-4 overflow-x-auto">
 					<Button
