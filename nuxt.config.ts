@@ -19,24 +19,37 @@ export default defineNuxtConfig({
 		plugins: [tailwindcss()],
 	},
 	pwa: {
+		devOptions: {
+			enabled: true,
+			type: "module",
+		},
 		registerType: "autoUpdate",
+		workbox: {
+			globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,woff2}"],
+			navigateFallback: "/",
+		},
+		client: {
+			installPrompt: true,
+		},
 		includeAssets: ["favicon.ico", "robots.txt"],
 		manifest: {
+			id: "/",
 			name: "MMI Place",
 			short_name: "MMI Place",
 			description: "Retrouvez tous vos services ici",
 			start_url: "/",
+			scope: "/",
 			display: "standalone",
 			background_color: "#ffffff",
 			theme_color: "#c2cce3",
 			icons: [
 				{
-					src: "icons/icon-192x192.png",
+					src: "/icons/icon-192x192.png",
 					sizes: "192x192",
 					type: "image/png",
 				},
 				{
-					src: "icons/icon-512x512.png",
+					src: "/icons/icon-512x512.png",
 					sizes: "512x512",
 					type: "image/png",
 				},
