@@ -1,8 +1,10 @@
+import { prisma } from "~~/server/utils/db";
+
 export default defineEventHandler(async (event) => {
 	const token = event.context.params?.identifier;
 
 	if (!token) {
-		return
+		return;
 	}
 
 	const redirect = await prisma.redirect.findUnique({

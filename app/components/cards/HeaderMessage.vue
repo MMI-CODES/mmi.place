@@ -2,7 +2,6 @@
 import { InformationCircleIcon } from "@heroicons/vue/24/solid";
 
 import { motion } from "motion-v";
-import { on } from "node:cluster";
 
 import type { Message } from "~~/prisma/generated/client";
 

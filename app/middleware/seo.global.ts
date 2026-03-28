@@ -1,11 +1,11 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-	if (window !== undefined) {
+	if (import.meta.client) {
 		const { refreshSession } = useSession();
 		refreshSession();
 	}
 
 	useHead({
-		title: to.meta.title as string || "MMI Place",
+		title: (to.meta.title as string) || "MMI Place",
 		meta: [
 			{
 				name: "description",
