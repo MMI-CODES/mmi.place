@@ -18,6 +18,9 @@ export default defineNuxtConfig({
 	vite: {
 		plugins: [tailwindcss()],
 	},
+	content: {
+		experimental: { nativeSqlite: true },
+	},
 	pwa: {
 		devOptions: {
 			enabled: true,
