@@ -20,7 +20,7 @@
 
 @media (max-width: 640px) {
 	:root {
-		--txt-coeff: 0.75;
+		--txt-coeff: 0.9;
 	}
 }
 
