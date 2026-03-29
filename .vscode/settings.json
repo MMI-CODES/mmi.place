@@ -9,11 +9,21 @@
     "source.fixAll": "explicit"
   },
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
-	"files.associations": {
-		"*.css": "tailwindcss"
-	},
-	"editor.quickSuggestions": {
-		"strings": true
-	}
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.nuxt": true,
+    "**/.data": true,
+    "**/.output": true,
+    "**.vercel": true,
+    "**/dist": true,
+    "**/node_modules": true,
+    "**/.github": true
+  }
 }
