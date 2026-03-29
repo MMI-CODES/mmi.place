@@ -4,12 +4,18 @@ Votre tableau de bord se fait un nouveau look, mais revient avec bien plus à vo
 
 ## Un nouveau look d'enfer, plus accessible et ergonomique
 
-Le site MMI Place a été complètement redessiné pour cette toute nouvelle version. Un travail a été fait sur la cohérence, l'ergonomie et l'accessibilité du site, proposant un tas de nouveaux réglages comme:
+Le site MMI Place a été complètement redessiné pour cette toute nouvelle version. Un travail a été fait sur la cohérence, l'ergonomie et l'accessibilité du site.
 
-- Ajustement de la taille du texte
-- Ajustement de la police pour les personnes
-- Intégration d'un thème sombre
-- Ajout d'un mode « haut contraste » pour faciliter la visibilité
+### Réglages de l'interface
+
+Il est désormais possible de paramétrer l'interface pour mieux l'adapter à vos préférences. On trouve maintenant comme réglages:
+
+- Choix entre mode clair / mode sombre
+- Choix entre un contraste normal / haut contraste
+- Choix de la taille du texte
+- Choix de la police du texte (Fredoka / Open Dyslexic)
+
+D'autres réglages de personnalisation concernant le contenu sont disponibles, notamment sur l'ordre d'affichage des sections d'outils et les liens rapides qui font leur grand retour.
 
 ## Des fonctionnalités avancées
 
