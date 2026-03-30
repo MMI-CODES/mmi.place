@@ -28,6 +28,8 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Publish to GitHub Packages
         run: npm publish --access public
