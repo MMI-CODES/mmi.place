@@ -31,6 +31,9 @@ const globalForPrisma = globalThis as unknown as {
 	prisma: PrismaClientSingleton | undefined;
 };
 
-export const prisma = () => globalForPrisma.prisma ?? prismaClientSingleton();
-
-globalForPrisma.prisma = prisma();
+export const prisma = () => {
+	if (!globalForPrisma.prisma) {
+		globalForPrisma.prisma = prismaClientSingleton();
+	}
+	return globalForPrisma.prisma;
+};
