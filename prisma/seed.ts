@@ -171,6 +171,15 @@ const initialData: SeedTool[] = [
 		emoji: "🌐",
 		authors: [bastian],
 	},
+	{
+		name: "o2switch (hébergeur)",
+		url: "https://servd162214.srv.odns.fr:2083/",
+		source: null,
+		category: "RESOURCE",
+		description: "Site de l'hébergeur o2switch.",
+		emoji: "🌐",
+		authors: [bastian],
+	},
 ];
 
 const initialChannels = [

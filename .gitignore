@@ -1,31 +1,39 @@
 # Nuxt dev/build outputs
-.output
-.vercel
-.data
-.nuxt
-.nitro
-.cache
-dist
+.output/
+.nuxt/
+.nitro/
+.cache/
+.data/
+.vercel/
+dist/
 
 # Node dependencies
-node_modules
+node_modules/
 
 # Logs
-logs
+logs/
 *.log
 
-# Misc
-.DS_Store
-.fleet
-.idea
-.vscode
+# Prisma generated client
+prisma/generated/
 
 # Local env files
 .env
 .env.*
 !.env.example
 
-/app/generated/prisma
-/lib/generated/prisma
-/app/generated/prisma
-/prisma/generated
+# Database data (Docker volume bind-mount)
+pgdata/
+
+# IDE / Editors
+.DS_Store
+.fleet/
+.idea/
+.vscode/
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# PWA dev artifacts
+dev-dist/

@@ -31,10 +31,11 @@ watch(
 <template>
 	<motion.div
 		v-if="course"
-		class="flex flex-col gap-2 bg-surface border border-surface-border rounded-3xl shadow-2xl shadow-black/5 px-7 py-6 w-full"
+		class="cursor-pointer group flex flex-col gap-2 bg-surface hover:bg-surface-hover/50 border border-surface-border rounded-3xl shadow-2xl shadow-black/5 px-7 py-6 w-full"
 		:initial="{ opacity: 0, scale: 0.9 }"
 		:animate="{ opacity: 1, scale: 1 }"
 		:transition="{ duration: 0.3 }"
+		@click="window.open('https://vencat.mmi.codes', '_blank')"
 	>
 		<div class="flex flex-col">
 			<div class="flex items-center gap-4">
@@ -126,7 +127,7 @@ watch(
 					</span>
 				</motion.div>
 			</div>
-			<div class="flex justify-center gap-2">
+			<div class="flex justify-center gap-2" @click.stop>
 				<Button
 					label="Ouvrir Vencat"
 					btnStyle="LINK"
@@ -134,6 +135,16 @@ watch(
 				/>
 			</div>
 		</div>
+	</motion.div>
+	<motion.div
+		v-else-if="!settings.widgets.vencat.group"
+		class="flex flex-col items-center justify-center gap-4 bg-surface border border-surface-border rounded-3xl shadow-2xl shadow-black/5 h-full px-7 py-6 w-full"
+		:initial="{ opacity: 0, scale: 0.9 }"
+		:animate="{ opacity: 1, scale: 1 }"
+		:transition="{ duration: 0.3 }"
+	>
+		<p class="text-subtext font-medium text-center">Vous n'avez pas encore sélectionné de groupe MMI pour Vencat.</p>
+		<Button label="Choisir mon groupe" btnStyle="PRIMARY" :handler="() => { navigateTo('/settings?tab=widgets') }" />
 	</motion.div>
 	<motion.div
 		v-else

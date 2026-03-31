@@ -8,4 +8,5 @@ import Footer from "~/components/layout/Footer.vue";
 		<NuxtPage />
 	</NuxtLayout>
 	<Footer />
+	<PwaUpdatePrompt />
 </template>

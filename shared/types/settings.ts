@@ -1,5 +1,5 @@
-
 export type Settings = {
+	version?: string;
 	appearence: {
 		theme: "light" | "dark";
 		contrast: "normal" | "high";
@@ -14,6 +14,7 @@ export type Settings = {
 			url: string;
 		}[];
 		sectionOrders: ('students' | 'official' | 'resource')[];
+		pinnedTools: string[];
 	};
 	widgets: {
 		carrousel: boolean;

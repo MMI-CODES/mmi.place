@@ -16,9 +16,9 @@ type TokenResponse = {
 type UserInfoResponse = {
 	email?: string;
 	name?: string;
-	given_name?: string;
 	family_name?: string;
 	preferred_username?: string;
+	groups?: string[];
 };
 
 function normalizeBaseUrl(value: string) {
@@ -48,6 +48,15 @@ export default defineEventHandler(async (event) => {
 		const query = getQuery(event);
 		const code = query.code as string;
 		const state = query.state as string;
+		const errorParam = query.error as string;
+
+		if (errorParam === "login_required" || errorParam === "interaction_required") {
+			const { state: storedState } = readOidcTransientCookies(event);
+			clearOidcTransientCookies(event);
+			const encodedRedirectPath = storedState.split(":")[1];
+			const redirectPath = decodeURIComponent(encodedRedirectPath || "/");
+			return sendRedirect(event, redirectPath, 302);
+		}
 
 		if (!code || !state) {
 			throw createError({
@@ -149,23 +158,25 @@ export default defineEventHandler(async (event) => {
 			});
 		}
 
+		const isAdmin = userInfo.groups?.includes("admins");
+		const role = isAdmin ? "ADMIN" : "STUDENT";
+
 		const user = await prisma.user.upsert({
 			where: { email: userEmail },
 			update: {
 				name: userInfo.name,
 				firstName: userName,
 				lastName: userLastName,
-				username:
-					userInfo.preferred_username || userEmail.split("@")[0],
+				username: userInfo.preferred_username || userEmail.split("@")[0],
+				role: role,
 			},
 			create: {
 				email: userEmail,
 				name: userInfo.name,
 				firstName: userName,
 				lastName: userLastName,
-				role: "STUDENT",
-				username:
-					userInfo.preferred_username || userEmail.split("@")[0],
+				role: role,
+				username: userInfo.preferred_username || userEmail.split("@")[0],
 			},
 		});
 

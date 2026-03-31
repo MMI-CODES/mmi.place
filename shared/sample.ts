@@ -1,6 +1,7 @@
 import type { Settings } from "./types/settings";
 
 export const defaultSettings: Settings = {
+	version: "1.2",
 	appearence: {
 		theme: "light",
 		contrast: "normal",
@@ -17,6 +18,7 @@ export const defaultSettings: Settings = {
 			},
 		],
 		sectionOrders: ["students", "official", "resource"],
+		pinnedTools: [],
 	},
 	widgets: {
 		carrousel: true,
@@ -31,7 +33,7 @@ export const defaultSettings: Settings = {
 			group: null,
 		},
 		planup: {
-			enabled: true,
+			enabled: false,
 			group: null,
 			tasks: [],
 			tags: [],

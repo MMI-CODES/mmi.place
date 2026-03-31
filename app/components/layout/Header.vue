@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/outline";
-import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/vue/24/solid";
+import { ChevronUpIcon, ChevronDownIcon, WrenchScrewdriverIcon } from "@heroicons/vue/24/solid";
 
 import HeaderMessage from "../cards/HeaderMessage.vue";
 import HeaderCourse from "../cards/HeaderCourse.vue";
+import HeaderPlanup from "../cards/HeaderPlanup.vue";
 
 import { motion } from "motion-v";
 
@@ -12,35 +13,44 @@ const { session } = useSession();
 
 const widget = ref<number>(0);
 
-const widgets = [HeaderCourse, HeaderMessage];
+const widgets = computed(() => {
+	const list = [];
+	if (settings.value.widgets.vencat.enabled) list.push(HeaderCourse);
+	if (settings.value.widgets.messages.enabled) list.push(HeaderMessage);
+	if (settings.value.widgets.planup?.enabled) list.push(HeaderPlanup);
+	return list;
+});
+
+let widgetInterval: ReturnType<typeof setInterval> | undefined;
+
+const clearWidgetInterval = () => {
+	if (!widgetInterval) return;
+	clearInterval(widgetInterval);
+	widgetInterval = undefined;
+};
+
+const startWidgetInterval = () => {
+	clearWidgetInterval();
+	if (!settings.value.widgets.carrousel || widgets.value.length <= 1) return;
+
+	widgetInterval = setInterval(() => {
+		if (widgets.value.length > 0) {
+			widget.value = (widget.value + 1) % widgets.value.length;
+		}
+	}, settings.value.widgets.carrouselRate);
+};
 
 onMounted(() => {
-	let widgetInterval: ReturnType<typeof setInterval> | undefined;
-
-	const clearWidgetInterval = () => {
-		if (!widgetInterval) return;
-		clearInterval(widgetInterval);
-		widgetInterval = undefined;
-	};
-
-	const startWidgetInterval = () => {
-		clearWidgetInterval();
-		if (!settings.value.widgets.carrousel) return;
-
-		widgetInterval = setInterval(() => {
-			widget.value = (widget.value + 1) % widgets.length;
-		}, settings.value.widgets.carrouselRate);
-	};
-
 	document.addEventListener("keypress", (event) => {
+		if (!widgets.value.length) return;
+		
+		const target = event.target as HTMLElement;
+		if (target && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)) return;
+
 		if (event.key === "+") {
-			widget.value = (widget.value - 1 + widgets.length) % widgets.length;
+			widget.value = (widget.value - 1 + widgets.value.length) % widgets.value.length;
 		} else if (event.key === "-") {
-			widget.value = (widget.value + 1) % widgets.length;
-		} else if (event.key === "d") {
-			settings.value.appearence.theme = "dark";
-		} else if (event.key === "l") {
-			settings.value.appearence.theme = "light";
+			widget.value = (widget.value + 1) % widgets.value.length;
 		}
 	});
 
@@ -54,8 +64,12 @@ onMounted(() => {
 		() => [
 			settings.value.widgets.carrousel,
 			settings.value.widgets.carrouselRate,
+			widgets.value.length
 		],
 		() => {
+			if (widget.value >= widgets.value.length) {
+				widget.value = Math.max(0, widgets.value.length - 1);
+			}
 			startWidgetInterval();
 		},
 	);
@@ -101,12 +115,11 @@ onMounted(() => {
 		</div>
 		<div
 			class="flex flex-row-reverse items-center gap-2 h-80 xl:col-start-8 xl:col-span-5"
+			v-if="widgets.length > 0"
+			@mouseenter="clearWidgetInterval"
+			@mouseleave="startWidgetInterval"
 		>
-			<div class="group shrink-0 flex flex-col items-center gap-2 w-fit">
-				<!--ChevronUpIcon
-					class="text-primary w-4 h-4 cursor-pointer"
-					@click="widget = (widget - 1 + widgets.length) % widgets.length"
-				/-->
+			<div class="group shrink-0 flex flex-col items-center gap-2 w-fit" v-if="widgets.length > 1">
 				<motion.div
 					v-for="index in widgets.length"
 					:key="index"
@@ -122,10 +135,6 @@ onMounted(() => {
 					@click="widget = index - 1"
 				>
 				</motion.div>
-				<!--ChevronDownIcon
-					class="text-primary w-4 h-4 cursor-pointer"
-					@click="widget = (widget + 1) % widgets.length"
-				/-->
 			</div>
 			<component :is="widgets[widget]" />
 		</div>

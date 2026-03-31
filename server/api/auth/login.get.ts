@@ -57,6 +57,10 @@ export default defineEventHandler(async (event) => {
 		authorizeUrl.searchParams.set("scope", scope);
 		authorizeUrl.searchParams.set("state", state);
 		authorizeUrl.searchParams.set("code_challenge", challenge);
+		if (query.prompt === "none") {
+			authorizeUrl.searchParams.set("prompt", "none");
+		}
+		
 		authorizeUrl.searchParams.set("code_challenge_method", "S256");
 
 		return sendRedirect(event, authorizeUrl.toString(), 302);

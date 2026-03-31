@@ -22,28 +22,17 @@ export default defineEventHandler(async (event) => {
 		});
 	}
 
-	const { title, content, buttons, publishAt, expiresAt } = await readBody(event);
-
-	if (!title || !content || !event.context.params?.channel) {
+	const messageId = parseInt(event.context.params?.id || "0");
+	if (!messageId) {
 		throw createError({
 			statusCode: 400,
-			statusMessage: "Missing required fields",
+			statusMessage: "Invalid message ID",
 		});
 	}
 
-	const message = await prisma.message.create({
-		data: {
-			title,
-			content,
-			channel: {
-				connect: { id: parseInt(event.context.params?.channel || "0") },
-			},
-			buttons: buttons || [],
-			publishAt: publishAt ? new Date(publishAt) : null,
-			expiresAt: expiresAt ? new Date(expiresAt) : null,
-			createdAt: new Date(),
-		},
+	await prisma.message.delete({
+		where: { id: messageId },
 	});
 
-	return message;
+	return { success: true };
 });

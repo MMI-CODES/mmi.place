@@ -1,4 +1,4 @@
-import { defineConfig, env } from "prisma/config";
+import { defineConfig } from "prisma/config";
 import "dotenv/config";
 
 export default defineConfig({
@@ -8,6 +8,9 @@ export default defineConfig({
 		seed: "tsx ./prisma/seed.ts",
 	},
 	datasource: {
-		url: env("DATABASE_URL"),
+		// process.env instead of env() so prisma generate doesn't crash
+		// when DATABASE_URL is not set (e.g. during Docker build)
+		url: process.env.DATABASE_URL ?? "",
 	},
 });
+

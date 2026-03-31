@@ -14,12 +14,9 @@ const { fetchMessages } = useMessages();
 const { fetchPlanning } = usePlanning();
 const { settings, applySettings, loadSettings } = useSettings();
 
-onBeforeMount(() => {
+onMounted(() => {
 	loadSettings();
 	applySettings();
-});
-
-onMounted(() => {
 	fetchTools();
 	fetchMessages();
 	fetchPlanning();
@@ -73,6 +70,7 @@ watch(settings, applySettings, { deep: true });
 	</div>
 
 	<main v-if="tab === 'all'" class="container space-y-12">
+		<ToolRow section="pinned" />
 		<ToolRow
 			v-for="section in settings.customization.sectionOrders"
 			:key="section"

@@ -1,29 +1,36 @@
 # syntax=docker/dockerfile:1
-ARG NODE_VERSION=24.12.0
-FROM node:${NODE_VERSION}-alpine
 
-ENV NODE_ENV=production
-WORKDIR /usr/src/app
+# ── Stage 1: Build ──────────────────────────────────────
+FROM node:22-alpine AS builder
+WORKDIR /app
 
-# Copier les fichiers essentiels pour npm ci et postinstall
+# Install dependencies first (cache layer)
 COPY package.json package-lock.json ./
-COPY prisma ./prisma
-COPY nuxt.config.ts ./
+COPY prisma/ ./prisma/
+COPY prisma.config.ts ./
+RUN npm ci
 
-# Installer les dépendances (postinstall pourra générer Prisma)
-RUN npm ci --omit=dev
+# Generate Prisma client (no DB needed here)
+RUN npx prisma generate
 
-# Copier le reste du code
+# Copy full source & build Nuxt
 COPY . .
-
-# Expose port
-EXPOSE 3000
-
-# User non-root
-USER node
-
-# Build Nuxt (génère .output)
 RUN npm run build
 
-# Run server
+# ── Stage 2: Production ────────────────────────────────
+FROM node:22-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+EXPOSE 3000
+
+# Copy only the self-contained Nuxt output
+COPY --from=builder /app/.output ./.output
+
+# Copy Prisma migration files for runtime db push
+COPY --from=builder /app/prisma/ ./prisma/
+COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
+COPY --from=builder /app/package.json ./package.json
+
+USER node
 CMD ["node", ".output/server/index.mjs"]
