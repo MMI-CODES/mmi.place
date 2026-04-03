@@ -241,7 +241,7 @@ watch(
 				Apparence Globale
 			</h2>
 			<div
-				class="flex items-center justify-between p-4 bg-surface border border-surface-border rounded-2xl shadow-sm"
+				class="flex items-center justify-between p-4 bg-surface border border-surface-border rounded-2xl"
 			>
 				<div class="flex items-center gap-3 font-medium">
 					<MoonIcon
@@ -261,7 +261,7 @@ watch(
 			</div>
 
 			<div
-				class="flex items-center justify-between p-4 bg-surface border border-surface-border rounded-2xl shadow-sm"
+				class="flex items-center justify-between p-4 bg-surface border border-surface-border rounded-2xl"
 			>
 				<span class="font-medium">Contraste élevé</span>
 				<Switch
@@ -282,7 +282,7 @@ watch(
 			</h2>
 
 			<div
-				class="flex items-center justify-between p-4 bg-surface border border-surface-border rounded-2xl shadow-sm"
+				class="flex items-center justify-between p-4 bg-surface border border-surface-border rounded-2xl"
 			>
 				<span class="font-medium">Taille du texte</span>
 				<div class="flex items-center gap-4">
@@ -307,7 +307,7 @@ watch(
 			</div>
 
 			<div
-				class="flex items-center justify-between p-4 bg-surface border border-surface-border rounded-2xl shadow-sm"
+				class="flex items-center justify-between p-4 bg-surface border border-surface-border rounded-2xl"
 			>
 				<div class="flex flex-col">
 					<span class="font-medium">Police Open Dyslexic</span>
@@ -353,7 +353,7 @@ watch(
 				<div
 					v-for="(link, index) in settings.customization.links"
 					:key="`${link.name}-${index}`"
-					class="flex items-center justify-between rounded-2xl border border-surface-border bg-surface px-5 py-4 shadow-sm"
+					class="flex items-center justify-between rounded-2xl border border-surface-border bg-surface px-5 py-4"
 				>
 					<div class="flex flex-col">
 						<span class="font-semibold text-primary">{{
@@ -393,7 +393,7 @@ watch(
 					v-for="(section, index) in settings.customization
 						.sectionOrders"
 					:key="section"
-					class="flex items-center justify-between bg-surface border border-surface-border rounded-2xl px-5 py-4 shadow-sm"
+					class="flex items-center justify-between bg-surface border border-surface-border rounded-2xl px-5 py-4"
 				>
 					<div class="flex items-center gap-4">
 						<span
@@ -440,7 +440,7 @@ watch(
 
 			<div
 				v-if="settings.widgets.vencat.enabled"
-				class="flex flex-col gap-4 p-5 bg-surface border border-surface-border rounded-2xl shadow-sm"
+				class="flex flex-col gap-4 p-5 bg-surface border border-surface-border rounded-2xl"
 			>
 				<p class="text-subtext text-sm">
 					Sélectionnez votre groupe pour afficher votre prochain cours
@@ -482,7 +482,7 @@ watch(
 
 			<div
 				v-if="settings.widgets.planup.enabled"
-				class="flex flex-col gap-4 p-5 bg-surface border border-surface-border rounded-2xl shadow-sm"
+				class="flex flex-col gap-4 p-5 bg-surface border border-surface-border rounded-2xl"
 			>
 				<p class="text-subtext text-sm">
 					Configurez l'affichage de vos tâches. (Auparavant bloqué,
@@ -523,7 +523,7 @@ watch(
 
 			<div
 				v-if="settings.widgets.messages.enabled"
-				class="flex flex-col gap-5 p-5 bg-surface border border-surface-border rounded-2xl shadow-sm"
+				class="flex flex-col gap-5 p-5 bg-surface border border-surface-border rounded-2xl"
 			>
 				<div class="flex flex-col gap-3">
 					<span class="font-medium"

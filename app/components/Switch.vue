@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
 import { motion } from "motion-v";
 
 const props = defineProps<{
@@ -11,17 +10,6 @@ const props = defineProps<{
 const emit = defineEmits<{
 	"update:modelValue": [value: boolean];
 }>();
-
-const isMobile = ref(false);
-
-onMounted(() => {
-	const checkMobile = () => {
-		isMobile.value = window.innerWidth < 640;
-	};
-	checkMobile();
-	window.addEventListener("resize", checkMobile);
-	onUnmounted(() => window.removeEventListener("resize", checkMobile));
-});
 
 const toggle = () => {
 	if (props.disabled) return;
@@ -36,23 +24,19 @@ const toggle = () => {
 		@click="toggle"
 	>
 		<div
-			class="relative w-12 h-6 sm:w-14 sm:h-7 rounded-full transition-colors duration-300 ease-in-out border"
-			:class="[
-				modelValue
-					? 'bg-primary border-primary'
-					: 'bg-button border-button-border',
-			]"
+			class="relative bg-button border-button-border w-14 h-8 rounded-full transition-colors duration-300 ease-in-out border p-0.75"
 		>
 			<!-- Le curseur blanc à l'intérieur -->
 			<motion.div
-				class="absolute top-1/2 -translate-y-1/2 left-0.5 sm:left-1 w-5 h-5 sm:w-6 sm:h-6 bg-white rounded-full shadow-sm"
+				class="w-6 h-6 rounded-full will-change-transform"
+				:class="modelValue ? 'bg-primary' : 'bg-on-button'"
 				:animate="{
-					x: modelValue ? (isMobile ? 22 : 26) : 0,
+					x: modelValue ? 24 : 0,
 				}"
 				:transition="{
 					type: 'spring',
 					stiffness: 500,
-					damping: 30,
+					damping: 32,
 				}"
 			/>
 		</div>

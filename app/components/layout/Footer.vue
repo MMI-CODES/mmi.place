@@ -74,10 +74,10 @@ onMounted(() => {
 				<li>
 					GitHub:
 					<a
-						href="https://github.com/MMI-CODES"
+						href="https://github.com/mmi-place"
 						target="_blank"
 						class="text-primary hover:underline"
-						>MMI-CODES</a
+						>mmi-place</a
 					>
 				</li>
 				<li>
