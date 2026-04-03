@@ -68,6 +68,10 @@ const goToResult = (tool: any) => {
 	searchOpen.value = false;
 	searchQuery.value = "";
 };
+
+const handleSearchBlur = () => {
+	setTimeout(() => (searchOpen.value = false), 200);
+};
 </script>
 <template>
 	<nav
@@ -86,7 +90,7 @@ const goToResult = (tool: any) => {
 				<input
 					v-model="searchQuery"
 					@focus="searchOpen = true"
-					@blur="setTimeout(() => (searchOpen = false), 200)"
+					@blur="handleSearchBlur"
 					type="text"
 					placeholder="Rechercher un outil…"
 					class="bg-transparent w-full text-sm outline-none placeholder:text-subtext/60"

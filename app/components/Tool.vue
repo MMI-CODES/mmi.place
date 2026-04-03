@@ -97,7 +97,7 @@ const openTool = () => {
 				</p>
 			</div>
 		</div>
-		<p class="text-base line-clamp-2 min-h-[3rem]">
+		<p class="text-base line-clamp-2 min-h-12">
 			{{ props.tool.description }}
 		</p>
 
