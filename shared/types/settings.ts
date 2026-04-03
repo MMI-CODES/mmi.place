@@ -14,7 +14,7 @@ export type Settings = {
 			url: string;
 		}[];
 		sectionOrders: ('students' | 'official' | 'resource')[];
-		pinnedTools: string[];
+		pinnedTools: number[];
 	};
 	widgets: {
 		carrousel: boolean;

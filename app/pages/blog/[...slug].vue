@@ -19,7 +19,7 @@ const slugSegments = computed(() => {
 		return slug;
 	}
 
-	return ['blog', slug];
+	return ["blog", slug];
 });
 
 const breadcrumbItems = computed(() => {
@@ -41,19 +41,13 @@ const breadcrumbItems = computed(() => {
 </script>
 <template>
 	<header class="container px-4 md:px-8">
-		<nav
-			aria-label="Fil d'ariane"
-		>
+		<nav aria-label="Fil d'ariane">
 			<ol class="flex flex-wrap items-center gap-2">
 				<li>
 					<Button
 						label="Accueil"
 						btnStyle="LINK"
-						:handler="
-							() => {
-								void navigateTo('/');
-							}
-						"
+						handler="/"
 					/>
 				</li>
 
@@ -69,11 +63,7 @@ const breadcrumbItems = computed(() => {
 							v-if="!item.isCurrent"
 							:label="item.label"
 							btnStyle="LINK"
-							:handler="
-								() => {
-									void navigateTo(item.path);
-								}
-							"
+							:handler="item.path"
 						/>
 						<span
 							v-else

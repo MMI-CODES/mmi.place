@@ -10,7 +10,10 @@ export const useMessages = () => {
 		() => [],
 	);
 
-	const activeMessageIndex = useState<number>("active-message-index", () => 0);
+	const activeMessageIndex = useState<number>(
+		"active-message-index",
+		() => 0,
+	);
 
 	const loading = useState<boolean>("messages-loading", () => false);
 	const error = useState<Error | null>("messages-error", () => null);
@@ -39,7 +42,10 @@ export const useMessages = () => {
 			);
 
 			messages.value = messages.value.filter(
-				(message) => !settings.value.widgets.messages.readMessages.includes(message.id),
+				(message) =>
+					!settings.value.widgets.messages.readMessages.includes(
+						message.id,
+					),
 			);
 		} catch (e) {
 			error.value = e as Error;
@@ -52,7 +58,7 @@ export const useMessages = () => {
 		title: string;
 		content: string;
 		channelId: number;
-		buttons?: { label: string; link: string, style: string }[];
+		buttons?: { label: string; link: string; style: string }[];
 		publishAt?: string;
 		expiresAt?: string;
 	}) => {
@@ -68,14 +74,17 @@ export const useMessages = () => {
 		});
 	};
 
-	const updateMessage = async (id: number, message: {
-		title: string;
-		content: string;
-		channelId: number;
-		buttons?: { label: string; link: string, style: string }[];
-		publishAt?: string;
-		expiresAt?: string;
-	}) => {
+	const updateMessage = async (
+		id: number,
+		message: {
+			title: string;
+			content: string;
+			channelId: number;
+			buttons?: { label: string; link: string; style: string }[];
+			publishAt?: string;
+			expiresAt?: string;
+		},
+	) => {
 		await $fetch(`/api/messages/${id}`, {
 			method: "PUT",
 			body: {
@@ -95,5 +104,14 @@ export const useMessages = () => {
 		});
 	};
 
-	return { messages, activeMessageIndex, loading, error, fetchMessages, publishMessage, updateMessage, deleteMessage };
+	return {
+		messages,
+		activeMessageIndex,
+		loading,
+		error,
+		fetchMessages,
+		publishMessage,
+		updateMessage,
+		deleteMessage,
+	};
 };

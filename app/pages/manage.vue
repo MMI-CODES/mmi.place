@@ -13,7 +13,11 @@ type ToolCategory = "OFFICIAL" | "STUDENTS" | "RESOURCE";
 type ToolWithAuthors = Tool & { authors: User[] };
 
 const { tools, fetchTools } = useTools();
-const { publishMessage, updateMessage, deleteMessage: apiDeleteMessage } = useMessages();
+const {
+	publishMessage,
+	updateMessage,
+	deleteMessage: apiDeleteMessage,
+} = useMessages();
 const { session } = useSession();
 const { channels, fetchChannels } = useChannels();
 const { settings, applySettings, loadSettings } = useSettings();
@@ -49,7 +53,9 @@ const toDateTimeLocal = (isoString?: string | Date | null) => {
 	if (!isoString) return "";
 	const date = new Date(isoString);
 	if (isNaN(date.getTime())) return "";
-	return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+	return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+		.toISOString()
+		.slice(0, 16);
 };
 
 // --- GESTION MESSAGES ---
@@ -85,7 +91,11 @@ function startMessageEdit(msg: Message) {
 		title: msg.title,
 		content: msg.content,
 		channelId: msg.channelId,
-		buttons: (msg.buttons || []) as { label: string; link: string; style: string }[],
+		buttons: (msg.buttons || []) as {
+			label: string;
+			link: string;
+			style: string;
+		}[],
 		publishAt: toDateTimeLocal(msg.publishAt),
 		expiresAt: toDateTimeLocal(msg.expiresAt),
 	};
@@ -110,8 +120,12 @@ async function submitMessage() {
 			channelId: messageForm.value.channelId,
 			buttons: messageForm.value.buttons,
 			// Conversion des dates
-			publishAt: messageForm.value.publishAt ? new Date(messageForm.value.publishAt).toISOString() : undefined,
-			expiresAt: messageForm.value.expiresAt ? new Date(messageForm.value.expiresAt).toISOString() : undefined,
+			publishAt: messageForm.value.publishAt
+				? new Date(messageForm.value.publishAt).toISOString()
+				: undefined,
+			expiresAt: messageForm.value.expiresAt
+				? new Date(messageForm.value.expiresAt).toISOString()
+				: undefined,
 		};
 
 		if (isEditingMessage.value && messageForm.value.id) {
@@ -133,7 +147,7 @@ async function submitMessage() {
 
 async function deleteAdminMessage(id: number) {
 	if (!window.confirm("Supprimer cette publication définitivement ?")) return;
-	
+
 	try {
 		await apiDeleteMessage(id);
 		await fetchManagedMessages();
@@ -142,7 +156,6 @@ async function deleteAdminMessage(id: number) {
 		console.error("Erreur supression", e);
 	}
 }
-
 
 // --- GESTION OUTILS ---
 const toolForm = ref<{
@@ -246,7 +259,8 @@ async function submitTool() {
 		resetToolForm();
 		await fetchTools();
 	} catch (error) {
-		toolActionError.value = error instanceof Error ? error.message : "Erreur.";
+		toolActionError.value =
+			error instanceof Error ? error.message : "Erreur.";
 	} finally {
 		toolActionLoading.value = false;
 	}
@@ -268,8 +282,11 @@ async function deleteTool(id: number, name: string) {
 	}
 }
 
-
-const categoryOptions: { value: ToolCategory; label: string; style: "neutral" }[] = [
+const categoryOptions: {
+	value: ToolCategory;
+	label: string;
+	style: "neutral";
+}[] = [
 	{ value: "OFFICIAL", label: "Officiel", style: "neutral" },
 	{ value: "STUDENTS", label: "Étudiants", style: "neutral" },
 	{ value: "RESOURCE", label: "Ressource", style: "neutral" },
@@ -297,25 +314,59 @@ watch(settings, applySettings, { deep: true });
 <template>
 	<header v-if="session?.id"></header>
 
-	<div v-if="session && !['ADMIN', 'MANAGER'].includes(session.role)" class="container flex justify-center py-20">
-		<div class="bg-surface border border-surface-border text-center rounded-3xl p-10 max-w-md">
+	<div
+		v-if="session && !['ADMIN', 'MANAGER'].includes(session.role)"
+		class="container flex justify-center py-20"
+	>
+		<div
+			class="bg-surface border border-surface-border text-center rounded-3xl p-10 max-w-md"
+		>
 			<h2 class="text-3xl font-bold text-danger mb-4">Accès refusé</h2>
-			<p class="text-subtext">Vous n'avez pas les permissions nécessaires (Admin/Manager) pour afficher cette page d'administration.</p>
-			<Button label="Retourner à l'accueil" btnStyle="PRIMARY" :handler="() => navigateTo('/')" class="mt-8" />
+			<p class="text-subtext">
+				Vous n'avez pas les permissions nécessaires (Admin/Manager) pour
+				afficher cette page d'administration.
+			</p>
+			<Button
+				label="Retourner à l'accueil"
+				btnStyle="PRIMARY"
+				handler="/"
+				class="mt-8"
+			/>
 		</div>
 	</div>
 
-	<main v-else-if="session && ['ADMIN', 'MANAGER'].includes(session.role)" class="container flex flex-col gap-6 lg:gap-8 max-w-5xl mx-auto my-6">
+	<main
+		v-else-if="session && ['ADMIN', 'MANAGER'].includes(session.role)"
+		class="container flex flex-col gap-6 lg:gap-8 max-w-5xl mx-auto my-6"
+	>
 		<h1 class="text-4xl font-bold">Panel Administrateur</h1>
-		
+
 		<!-- SECTION AJOUTER/MODIFIER PUBLICATION -->
-		<section class="space-y-4 bg-surface text-on-surface border border-surface-border rounded-3xl p-6 lg:p-8 shadow-xl">
-			<div class="flex items-center justify-between gap-3 border-b border-surface-border pb-4">
-				<h2 class="text-2xl font-bold text-primary">{{ isEditingMessage ? "Modifier la publication" : "Créer une publication" }}</h2>
-				<Button v-if="isEditingMessage" label="Nouvelle publication" btnStyle="NEUTRAL" :handler="resetMessageForm" />
+		<section
+			class="space-y-4 bg-surface text-on-surface border border-surface-border rounded-3xl p-6 lg:p-8 shadow-xl"
+		>
+			<div
+				class="flex items-center justify-between gap-3 border-b border-surface-border pb-4"
+			>
+				<h2 class="text-2xl font-bold text-primary">
+					{{
+						isEditingMessage
+							? "Modifier la publication"
+							: "Créer une publication"
+					}}
+				</h2>
+				<Button
+					v-if="isEditingMessage"
+					label="Nouvelle publication"
+					btnStyle="NEUTRAL"
+					:handler="resetMessageForm"
+				/>
 			</div>
-			
-			<form class="flex flex-col gap-5 pt-2" @submit.prevent="submitMessage">
+
+			<form
+				class="flex flex-col gap-5 pt-2"
+				@submit.prevent="submitMessage"
+			>
 				<input
 					v-model="messageForm.title"
 					class="w-full px-4 py-3 border border-surface-border rounded-xl bg-surface focus:border-primary transition duration-200"
@@ -330,20 +381,52 @@ watch(settings, applySettings, { deep: true });
 				></textarea>
 
 				<div class="grid md:grid-cols-2 gap-4">
-					<div class="flex flex-col gap-2 p-3 border border-primary/20 bg-primary/5 rounded-xl">
-						<label class="text-sm font-bold text-primary flex items-center gap-1">⏱ Date de publication différée <span class="text-xs font-normal opacity-70">(Optionnel)</span></label>
-						<p class="text-xs leading-none text-subtext/80 mb-1">Empêche de voir ce message avant cette date.</p>
-						<input type="datetime-local" v-model="messageForm.publishAt" class="px-3 py-2 border border-surface-border rounded-lg bg-surface text-sm" />
+					<div
+						class="flex flex-col gap-2 p-3 border border-primary/20 bg-primary/5 rounded-xl"
+					>
+						<label
+							class="text-sm font-bold text-primary flex items-center gap-1"
+							>⏱ Date de publication différée
+							<span class="text-xs font-normal opacity-70"
+								>(Optionnel)</span
+							></label
+						>
+						<p class="text-xs leading-none text-subtext/80 mb-1">
+							Empêche de voir ce message avant cette date.
+						</p>
+						<input
+							type="datetime-local"
+							v-model="messageForm.publishAt"
+							class="px-3 py-2 border border-surface-border rounded-lg bg-surface text-sm"
+						/>
 					</div>
-					<div class="flex flex-col gap-2 p-3 border border-danger/20 bg-danger/5 rounded-xl">
-						<label class="text-sm font-bold text-danger flex items-center gap-1">🗑 Date d'expiration <span class="text-xs font-normal opacity-70">(Optionnel)</span></label>
-						<p class="text-xs leading-none text-subtext/80 mb-1">Masque automatiquement ce message passée cette date.</p>
-						<input type="datetime-local" v-model="messageForm.expiresAt" class="px-3 py-2 border border-surface-border rounded-lg bg-surface text-sm" />
+					<div
+						class="flex flex-col gap-2 p-3 border border-danger/20 bg-danger/5 rounded-xl"
+					>
+						<label
+							class="text-sm font-bold text-danger flex items-center gap-1"
+							>🗑 Date d'expiration
+							<span class="text-xs font-normal opacity-70"
+								>(Optionnel)</span
+							></label
+						>
+						<p class="text-xs leading-none text-subtext/80 mb-1">
+							Masque automatiquement ce message passée cette date.
+						</p>
+						<input
+							type="datetime-local"
+							v-model="messageForm.expiresAt"
+							class="px-3 py-2 border border-surface-border rounded-lg bg-surface text-sm"
+						/>
 					</div>
 				</div>
 
-				<div class="flex flex-col gap-3 p-4 border border-surface-border rounded-xl bg-black/5">
-					<label class="text-sm font-bold">Boutons d'action liés à la publication</label>
+				<div
+					class="flex flex-col gap-3 p-4 border border-surface-border rounded-xl bg-black/5"
+				>
+					<label class="text-sm font-bold"
+						>Boutons d'action liés à la publication</label
+					>
 					<div
 						v-for="(button, index) in messageForm.buttons"
 						:key="'button-' + index"
@@ -356,130 +439,344 @@ watch(settings, applySettings, { deep: true });
 						/>
 						<input
 							v-model="button.link"
-							class="flex-[2] px-3 py-2 border border-surface-border rounded-lg bg-surface"
+							class="flex-2 px-3 py-2 border border-surface-border rounded-lg bg-surface"
 							placeholder="URL cible (https://...)"
 						/>
-						<Select :options="messageButtonStyleOptions" v-model="button.style" />
-						<Button label="X" btnStyle="DANGER" :handler="() => { messageForm.buttons.splice(index, 1); }" />
+						<Select
+							:options="messageButtonStyleOptions"
+							v-model="button.style"
+						/>
+						<Button
+							label="X"
+							btnStyle="DANGER"
+							:handler="
+								() => {
+									messageForm.buttons.splice(index, 1);
+								}
+							"
+						/>
 					</div>
 					<Button
 						label="+ Ajouter un bouton d'action"
 						btnStyle="NEUTRAL"
-						:handler="() => { messageForm.buttons.push({ label: 'Nouveau', link: 'https://', style: 'NEUTRAL' }); }"
+						:handler="
+							() => {
+								messageForm.buttons.push({
+									label: 'Nouveau',
+									link: 'https://',
+									style: 'NEUTRAL',
+								});
+							}
+						"
 						class="w-fit cursor-pointer"
 					/>
 				</div>
 
-				<div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-2">
+				<div
+					class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-2"
+				>
 					<div class="flex flex-col gap-1 w-full sm:w-1/3">
-						<label class="text-sm font-bold">Diffuser sur le canal :</label>
-						<Select :options="channelOptions" v-model="messageForm.channelId" />
+						<label class="text-sm font-bold"
+							>Diffuser sur le canal :</label
+						>
+						<Select
+							:options="channelOptions"
+							v-model="messageForm.channelId"
+						/>
 					</div>
-					
+
 					<div class="flex items-center gap-2">
-						<p v-if="messageActionLoading" class="text-subtext">Sauvegarde...</p>
-						<p v-if="messageActionError" class="text-danger">{{ messageActionError }}</p>
-						<p v-if="messageActionSuccess" class="text-success font-bold">{{ messageActionSuccess }}</p>
-						
-						<Button v-if="isEditingMessage" label="Annuler" btnStyle="NEUTRAL" :handler="resetMessageForm" />
-						<Button :label="isEditingMessage ? 'Mettre à jour' : 'Publier'" btnStyle="PRIMARY" :handler="submitMessage" />
+						<p v-if="messageActionLoading" class="text-subtext">
+							Sauvegarde...
+						</p>
+						<p v-if="messageActionError" class="text-danger">
+							{{ messageActionError }}
+						</p>
+						<p
+							v-if="messageActionSuccess"
+							class="text-success font-bold"
+						>
+							{{ messageActionSuccess }}
+						</p>
+
+						<Button
+							v-if="isEditingMessage"
+							label="Annuler"
+							btnStyle="NEUTRAL"
+							:handler="resetMessageForm"
+						/>
+						<Button
+							:label="
+								isEditingMessage ? 'Mettre à jour' : 'Publier'
+							"
+							btnStyle="PRIMARY"
+							:handler="submitMessage"
+						/>
 					</div>
 				</div>
 			</form>
 		</section>
 
 		<!-- SECTION LISTE DES PUBLICATIONS -->
-		<section class="space-y-4 bg-surface text-on-surface border border-surface-border rounded-3xl p-6 lg:p-8 shadow-xl">
-			<h2 class="text-2xl font-bold mb-4">Mural des publications ({{ managedMessages.length }})</h2>
-			<div v-if="managedMessages.length === 0" class="text-subtext">Aucune publication actuelle.</div>
+		<section
+			class="space-y-4 bg-surface text-on-surface border border-surface-border rounded-3xl p-6 lg:p-8 shadow-xl"
+		>
+			<h2 class="text-2xl font-bold mb-4">
+				Mural des publications ({{ managedMessages.length }})
+			</h2>
+			<div v-if="managedMessages.length === 0" class="text-subtext">
+				Aucune publication actuelle.
+			</div>
 			<div v-else class="space-y-4">
-				<div 
-					v-for="msg in managedMessages" 
-					:key="'msg-' + msg.id" 
+				<div
+					v-for="msg in managedMessages"
+					:key="'msg-' + msg.id"
 					class="border border-surface-border bg-black/5 rounded-2xl p-4 flex flex-col sm:flex-row justify-between gap-4 transition-all"
-					:class="{'border-primary shadow-[0_0_15px_rgba(16,185,129,0.2)]': isEditingMessage && messageForm.id === msg.id}"
+					:class="{
+						'border-primary shadow-[0_0_15px_rgba(16,185,129,0.2)]':
+							isEditingMessage && messageForm.id === msg.id,
+					}"
 				>
 					<div class="flex flex-col gap-1 flex-1">
 						<div class="flex items-center gap-2 mb-1">
-							<span class="bg-primary/10 text-primary px-2.5 py-0.5 rounded-md font-bold text-xs uppercase tracking-wider">Cnl. {{ channels.find(c => c.id === msg.channelId)?.title || msg.channelId }}</span>
-							<h3 class="text-xl font-bold leading-tight">{{ msg.title }}</h3>
+							<span
+								class="bg-primary/10 text-primary px-2.5 py-0.5 rounded-md font-bold text-xs uppercase tracking-wider"
+								>Cnl.
+								{{
+									channels.find((c) => c.id === msg.channelId)
+										?.title || msg.channelId
+								}}</span
+							>
+							<h3 class="text-xl font-bold leading-tight">
+								{{ msg.title }}
+							</h3>
 						</div>
-						
-						<p class="text-subtext text-sm line-clamp-2">{{ msg.content }}</p>
-						
-						<div class="flex items-center gap-4 mt-2 text-xs font-semibold">
+
+						<p class="text-subtext text-sm line-clamp-2">
+							{{ msg.content }}
+						</p>
+
+						<div
+							class="flex items-center gap-4 mt-2 text-xs font-semibold"
+						>
 							<span class="text-subtext flex items-center gap-1">
-								📝 Créé le {{ new Date(msg.createdAt).toLocaleDateString("fr-FR", {day:"2-digit", month:"short"}) }}
+								📝 Créé le
+								{{
+									new Date(msg.createdAt).toLocaleDateString(
+										"fr-FR",
+										{ day: "2-digit", month: "short" },
+									)
+								}}
 							</span>
-							<span v-if="msg.publishAt" class="text-amber-500/80 flex items-center gap-1">
-								⏳ Planifié au {{ new Date(msg.publishAt).toLocaleDateString("fr-FR", {day:"2-digit", month:"short", hour:"2-digit", minute:"2-digit"}) }}
+							<span
+								v-if="msg.publishAt"
+								class="text-amber-500/80 flex items-center gap-1"
+							>
+								⏳ Planifié au
+								{{
+									new Date(msg.publishAt).toLocaleDateString(
+										"fr-FR",
+										{
+											day: "2-digit",
+											month: "short",
+											hour: "2-digit",
+											minute: "2-digit",
+										},
+									)
+								}}
 							</span>
-							<span v-if="msg.expiresAt" class="text-danger/80 flex items-center gap-1">
-								☠ Expire le {{ new Date(msg.expiresAt).toLocaleDateString("fr-FR", {day:"2-digit", month:"short", hour:"2-digit", minute:"2-digit"}) }}
+							<span
+								v-if="msg.expiresAt"
+								class="text-danger/80 flex items-center gap-1"
+							>
+								☠ Expire le
+								{{
+									new Date(msg.expiresAt).toLocaleDateString(
+										"fr-FR",
+										{
+											day: "2-digit",
+											month: "short",
+											hour: "2-digit",
+											minute: "2-digit",
+										},
+									)
+								}}
 							</span>
 						</div>
 					</div>
-					<div class="flex sm:flex-col justify-center sm:min-w-[100px] shrink-0 gap-2">
-						<Button label="Modifier" btnStyle="NEUTRAL" :handler="() => startMessageEdit(msg)" />
-						<Button label="Retirer" btnStyle="DANGER" :handler="() => deleteAdminMessage(msg.id)" />
+					<div
+						class="flex sm:flex-col justify-center sm:min-w-25 shrink-0 gap-2"
+					>
+						<Button
+							label="Modifier"
+							btnStyle="NEUTRAL"
+							:handler="() => startMessageEdit(msg)"
+						/>
+						<Button
+							label="Retirer"
+							btnStyle="DANGER"
+							:handler="() => deleteAdminMessage(msg.id)"
+						/>
 					</div>
 				</div>
 			</div>
 		</section>
 
 		<!-- SECTION GERER LES OUTILS -->
-		<section class="space-y-4 bg-surface text-on-surface border border-surface-border rounded-3xl p-6 lg:p-8 mt-4 shadow-xl">
-			<div class="flex items-center justify-between gap-3 border-b border-surface-border pb-4 mb-4">
+		<section
+			class="space-y-4 bg-surface text-on-surface border border-surface-border rounded-3xl p-6 lg:p-8 mt-4 shadow-xl"
+		>
+			<div
+				class="flex items-center justify-between gap-3 border-b border-surface-border pb-4 mb-4"
+			>
 				<h2 class="text-2xl font-bold">Gérer le catalogue d'Outils</h2>
-				<Button v-if="isEditingTool" label="Nouvel outil" btnStyle="NEUTRAL" :handler="resetToolForm" />
+				<Button
+					v-if="isEditingTool"
+					label="Nouvel outil"
+					btnStyle="NEUTRAL"
+					:handler="resetToolForm"
+				/>
 			</div>
 
-			<form class="grid grid-cols-1 gap-4 md:grid-cols-2" @submit.prevent="submitTool">
-				<input v-model="toolForm.name" class="w-full px-4 py-3 border border-surface-border rounded-xl bg-surface md:col-span-2" placeholder="Nom de l'outil..." />
-				<Select :options="categoryOptions" v-model="toolForm.category" />
-				<input v-model="toolForm.emoji" class="w-full px-4 py-3 border border-surface-border rounded-xl bg-surface" placeholder="Emoji (ex: 🚀) optionnel" />
-				<input v-model="toolForm.url" class="w-full px-4 py-3 border border-surface-border rounded-xl bg-surface md:col-span-2" placeholder="URL du site de l'outil..." />
-				<input v-model="toolForm.source" class="w-full px-4 py-3 border border-surface-border rounded-xl bg-surface md:col-span-2" placeholder="URL du code source (ex: Github) optionnel" />
-				<input v-model="toolForm.icon" class="w-full px-4 py-3 border border-surface-border rounded-xl bg-surface md:col-span-2" placeholder="URL de l'icône de l'outil (optionnel)" />
-				<textarea v-model="toolForm.description" class="w-full h-24 px-4 py-3 border border-surface-border rounded-xl bg-surface md:col-span-2 resize-y" placeholder="Description de l'outil expliquant à quoi il sert..."></textarea>
-				
-				<div class="flex items-center justify-between md:col-span-2 mt-2">
+			<form
+				class="grid grid-cols-1 gap-4 md:grid-cols-2"
+				@submit.prevent="submitTool"
+			>
+				<input
+					v-model="toolForm.name"
+					class="w-full px-4 py-3 border border-surface-border rounded-xl bg-surface md:col-span-2"
+					placeholder="Nom de l'outil..."
+				/>
+				<Select
+					:options="categoryOptions"
+					v-model="toolForm.category"
+				/>
+				<input
+					v-model="toolForm.emoji"
+					class="w-full px-4 py-3 border border-surface-border rounded-xl bg-surface"
+					placeholder="Emoji (ex: 🚀) optionnel"
+				/>
+				<input
+					v-model="toolForm.url"
+					class="w-full px-4 py-3 border border-surface-border rounded-xl bg-surface md:col-span-2"
+					placeholder="URL du site de l'outil..."
+				/>
+				<input
+					v-model="toolForm.source"
+					class="w-full px-4 py-3 border border-surface-border rounded-xl bg-surface md:col-span-2"
+					placeholder="URL du code source (ex: Github) optionnel"
+				/>
+				<input
+					v-model="toolForm.icon"
+					class="w-full px-4 py-3 border border-surface-border rounded-xl bg-surface md:col-span-2"
+					placeholder="URL de l'icône de l'outil (optionnel)"
+				/>
+				<textarea
+					v-model="toolForm.description"
+					class="w-full h-24 px-4 py-3 border border-surface-border rounded-xl bg-surface md:col-span-2 resize-y"
+					placeholder="Description de l'outil expliquant à quoi il sert..."
+				></textarea>
+
+				<div
+					class="flex items-center justify-between md:col-span-2 mt-2"
+				>
 					<div class="flex gap-2 items-center">
-						<p v-if="toolActionLoading" class="text-subtext text-sm">Sauvegarde...</p>
-						<p v-if="toolActionError" class="text-danger text-sm font-bold">{{ toolActionError }}</p>
-						<p v-if="toolActionSuccess" class="text-success text-sm font-bold">{{ toolActionSuccess }}</p>
+						<p
+							v-if="toolActionLoading"
+							class="text-subtext text-sm"
+						>
+							Sauvegarde...
+						</p>
+						<p
+							v-if="toolActionError"
+							class="text-danger text-sm font-bold"
+						>
+							{{ toolActionError }}
+						</p>
+						<p
+							v-if="toolActionSuccess"
+							class="text-success text-sm font-bold"
+						>
+							{{ toolActionSuccess }}
+						</p>
 					</div>
 					<div class="flex gap-2">
-						<Button v-if="isEditingTool" label="Annuler" btnStyle="NEUTRAL" :handler="resetToolForm" />
-						<Button :label="isEditingTool ? 'Mettre à jour' : 'Ajouter au catalogue'" btnStyle="PRIMARY" :handler="submitTool" />
+						<Button
+							v-if="isEditingTool"
+							label="Annuler"
+							btnStyle="NEUTRAL"
+							:handler="resetToolForm"
+						/>
+						<Button
+							:label="
+								isEditingTool
+									? 'Mettre à jour'
+									: 'Ajouter au catalogue'
+							"
+							btnStyle="PRIMARY"
+							:handler="submitTool"
+						/>
 					</div>
 				</div>
 			</form>
 		</section>
 
 		<!-- SECTION LISTE DES OUTILS -->
-		<section class="space-y-4 bg-surface text-on-surface border border-surface-border rounded-3xl p-6 lg:p-8 shadow-xl">
-			<h2 class="text-2xl font-bold mb-4">Catalogue ({{ managedTools.length }})</h2>
-			<div v-if="managedTools.length === 0" class="text-subtext">Aucun outil n'est référencé.</div>
+		<section
+			class="space-y-4 bg-surface text-on-surface border border-surface-border rounded-3xl p-6 lg:p-8 shadow-xl"
+		>
+			<h2 class="text-2xl font-bold mb-4">
+				Catalogue ({{ managedTools.length }})
+			</h2>
+			<div v-if="managedTools.length === 0" class="text-subtext">
+				Aucun outil n'est référencé.
+			</div>
 			<div v-else class="grid grid-cols-1 md:grid-cols-2 gap-3">
 				<div
 					v-for="tool in managedTools"
 					:key="'tool-' + tool.id"
 					class="border border-surface-border bg-black/5 rounded-2xl p-4 flex flex-col gap-2 transition-all"
-					:class="{'border-primary shadow-[0_0_15px_rgba(16,185,129,0.2)]': isEditingTool && toolForm.id === tool.id}"
+					:class="{
+						'border-primary shadow-[0_0_15px_rgba(16,185,129,0.2)]':
+							isEditingTool && toolForm.id === tool.id,
+					}"
 				>
 					<div class="flex items-center justify-between gap-2">
 						<div class="flex items-center gap-2">
-							<span class="text-xl shrink-0">{{ tool.emoji || '🛠️' }}</span>
-							<h3 class="text-lg font-bold leading-tight line-clamp-1">{{ tool.name }}</h3>
+							<span class="text-xl shrink-0">{{
+								tool.emoji || "🛠️"
+							}}</span>
+							<h3
+								class="text-lg font-bold leading-tight line-clamp-1"
+							>
+								{{ tool.name }}
+							</h3>
 						</div>
 						<div class="flex sm:flex-nowrap flex-wrap gap-1">
-							<Button label="✎" btnStyle="NEUTRAL" :handler="() => startToolEdit(tool)" class="px-3" />
-							<Button label="X" btnStyle="DANGER" :handler="() => deleteTool(tool.id, tool.name)" class="px-3" />
+							<Button
+								label="✎"
+								btnStyle="NEUTRAL"
+								:handler="() => startToolEdit(tool)"
+								class="px-3"
+							/>
+							<Button
+								label="X"
+								btnStyle="DANGER"
+								:handler="() => deleteTool(tool.id, tool.name)"
+								class="px-3"
+							/>
 						</div>
 					</div>
-					<span class="bg-surface-border text-subtext w-fit px-2 py-0.5 rounded-md text-xs font-bold">{{ tool.category }}</span>
-					<p v-if="tool.description" class="text-xs text-subtext line-clamp-2 mt-1">{{ tool.description }}</p>
+					<span
+						class="bg-surface-border text-subtext w-fit px-2 py-0.5 rounded-md text-xs font-bold"
+						>{{ tool.category }}</span
+					>
+					<p
+						v-if="tool.description"
+						class="text-xs text-subtext line-clamp-2 mt-1"
+					>
+						{{ tool.description }}
+					</p>
 				</div>
 			</div>
 		</section>

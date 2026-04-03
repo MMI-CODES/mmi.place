@@ -30,34 +30,33 @@ const toggle = () => {
 </script>
 
 <template>
-	<div 
-		class="flex items-center gap-3 w-fit" 
+	<div
+		class="flex items-center gap-3 w-fit"
 		:class="disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'"
 		@click="toggle"
 	>
-		<div 
+		<div
 			class="relative w-12 h-6 sm:w-14 sm:h-7 rounded-full transition-colors duration-300 ease-in-out border"
 			:class="[
-				modelValue 
-					? 'bg-primary border-primary' 
-					: 'bg-button border-button-border'
+				modelValue
+					? 'bg-primary border-primary'
+					: 'bg-button border-button-border',
 			]"
 		>
 			<!-- Le curseur blanc à l'intérieur -->
 			<motion.div
 				class="absolute top-1/2 -translate-y-1/2 left-0.5 sm:left-1 w-5 h-5 sm:w-6 sm:h-6 bg-white rounded-full shadow-sm"
 				:animate="{
-					x: modelValue ? (isMobile ? 22 : 26) : 0
+					x: modelValue ? (isMobile ? 22 : 26) : 0,
 				}"
 				:transition="{
 					type: 'spring',
 					stiffness: 500,
-					damping: 30
+					damping: 30,
 				}"
 			/>
 		</div>
 		<span v-if="label" class="font-medium text-foreground select-none">
-
 			{{ label }}
 		</span>
 	</div>

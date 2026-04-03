@@ -31,7 +31,7 @@ const togglePin = () => {
 	if (!settings.value.customization.pinnedTools) {
 		settings.value.customization.pinnedTools = [];
 	}
-	
+
 	const idx = settings.value.customization.pinnedTools.indexOf(props.tool.id);
 	if (idx > -1) {
 		settings.value.customization.pinnedTools.splice(idx, 1);
@@ -49,7 +49,7 @@ const openTool = () => {
 <template>
 	<motion.div
 		class="relative flex flex-col gap-2 bg-surface hover:bg-surface-hover/50 border border-surface-border rounded-3xl shadow-2xl shadow-black/5 px-7 py-6 cursor-pointer group"
-		:initial="{ opacity: 0, scale: .9 }"
+		:initial="{ opacity: 0, scale: 0.9 }"
 		:animate="{ opacity: 1, scale: 1 }"
 		:whileHover="{ y: -5 }"
 		:transition="{ duration: 0.3 }"
@@ -59,7 +59,11 @@ const openTool = () => {
 		<button
 			@click.stop="togglePin"
 			class="absolute top-4 right-4 p-2 rounded-full transition-colors z-10"
-			:class="isPinned ? 'text-emerald-500 bg-emerald-500/10' : 'text-subtext/50 hover:text-emerald-500 hover:bg-emerald-500/10 opacity-0 group-hover:opacity-100 focus:opacity-100'"
+			:class="
+				isPinned
+					? 'text-emerald-500 bg-emerald-500/10'
+					: 'text-subtext/50 hover:text-emerald-500 hover:bg-emerald-500/10 opacity-0 group-hover:opacity-100 focus:opacity-100'
+			"
 			:title="isPinned ? 'Désépingler' : 'Épingler sur l\'accueil'"
 		>
 			<BookmarkIconSolid v-if="isPinned" class="w-6 h-6" />
@@ -85,14 +89,18 @@ const openTool = () => {
 				🛠️
 			</div>
 			<div class="flex flex-col -space-y-1.5 overflow-hidden">
-				<h3 class="text-primary text-xl font-bold truncate">{{ props.tool.name }}</h3>
+				<h3 class="text-primary text-xl font-bold truncate">
+					{{ props.tool.name }}
+				</h3>
 				<p class="text-sm text-subtext truncate">
 					Par {{ authorsLabel || "Aucun auteur" }}
 				</p>
 			</div>
 		</div>
-		<p class="text-base line-clamp-2 min-h-[3rem]">{{ props.tool.description }}</p>
-		
+		<p class="text-base line-clamp-2 min-h-[3rem]">
+			{{ props.tool.description }}
+		</p>
+
 		<div class="flex gap-2 mt-auto pt-2" @click.stop>
 			<Button
 				:key="'open-' + props.tool.id"

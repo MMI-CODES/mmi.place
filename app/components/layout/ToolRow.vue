@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { 
-	WrenchScrewdriverIcon, 
-	AcademicCapIcon, 
+import {
+	WrenchScrewdriverIcon,
+	AcademicCapIcon,
 	BookOpenIcon,
-	BookmarkIcon
+	BookmarkIcon,
 } from "@heroicons/vue/24/solid";
 
 import SectionTitle from "~/components/layout/SectionTitle.vue";
 
 const props = defineProps<{
-	section: 'official' | 'students' | 'resource' | 'pinned';
+	section: "official" | "students" | "resource" | "pinned";
 }>();
 
 const { tools, error, loading } = useTools();
@@ -31,7 +31,7 @@ const icons = {
 
 const filteredTools = computed(() => {
 	if (!tools.value) return [];
-	
+
 	switch (props.section) {
 		case "official":
 			return tools.value.official;
@@ -46,10 +46,12 @@ const filteredTools = computed(() => {
 			const all = [
 				...tools.value.official,
 				...tools.value.students,
-				...tools.value.resource
+				...tools.value.resource,
 			];
 			// Filter and return unique (in case a tool appears in multiple lists, though unlikely)
-			return Array.from(new Set(all.filter(t => pinnedIds.includes(t.id))));
+			return Array.from(
+				new Set(all.filter((t) => pinnedIds.includes(t.id))),
+			);
 		}
 		default:
 			return [];
@@ -57,7 +59,12 @@ const filteredTools = computed(() => {
 });
 </script>
 <template>
-	<section v-if="filteredTools.length > 0 || (props.section !== 'pinned' && !loading)" class="container space-y-4">
+	<section
+		v-if="
+			filteredTools.length > 0 || (props.section !== 'pinned' && !loading)
+		"
+		class="container space-y-4"
+	>
 		<SectionTitle :icon="icons[props.section]">
 			{{ titles[props.section] }}
 		</SectionTitle>
@@ -67,14 +74,16 @@ const filteredTools = computed(() => {
 		<div v-else-if="error" class="text-center text-on-surface">
 			Une erreur est survenue lors du chargement des outils.
 		</div>
-		<div v-else-if="filteredTools.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-			<Tool
-				v-for="tool in filteredTools"
-				:key="tool.id"
-				:tool="tool"
-			/>
+		<div
+			v-else-if="filteredTools.length > 0"
+			class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+		>
+			<Tool v-for="tool in filteredTools" :key="tool.id" :tool="tool" />
 		</div>
-		<div v-else-if="props.section !== 'pinned'" class="text-center text-subtext">
+		<div
+			v-else-if="props.section !== 'pinned'"
+			class="text-center text-subtext"
+		>
 			Aucun outil à afficher.
 		</div>
 	</section>

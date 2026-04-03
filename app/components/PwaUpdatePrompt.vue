@@ -26,7 +26,10 @@ onMounted(() => {
 			if (!newWorker) return;
 
 			newWorker.addEventListener("statechange", () => {
-				if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+				if (
+					newWorker.state === "installed" &&
+					navigator.serviceWorker.controller
+				) {
 					needRefresh.value = true;
 				}
 			});
@@ -93,7 +96,10 @@ function dismiss() {
 				>
 					Actualiser
 				</button>
-				<button class="pwa-toast-btn pwa-toast-btn-dismiss" @click="dismiss">
+				<button
+					class="pwa-toast-btn pwa-toast-btn-dismiss"
+					@click="dismiss"
+				>
 					Fermer
 				</button>
 			</div>

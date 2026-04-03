@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { MagnifyingGlassIcon, ArrowDownTrayIcon } from "@heroicons/vue/24/outline";
+import {
+	MagnifyingGlassIcon,
+	ArrowDownTrayIcon,
+} from "@heroicons/vue/24/outline";
 import { WrenchScrewdriverIcon } from "@heroicons/vue/24/solid";
 
 const { session } = useSession();
@@ -49,9 +52,13 @@ const allTools = computed(() => {
 const filteredTools = computed(() => {
 	if (!searchQuery.value.trim()) return [];
 	const q = searchQuery.value.toLowerCase();
-	return allTools.value.filter((t: any) =>
-		t.name?.toLowerCase().includes(q) || t.description?.toLowerCase().includes(q)
-	).slice(0, 5);
+	return allTools.value
+		.filter(
+			(t: any) =>
+				t.name?.toLowerCase().includes(q) ||
+				t.description?.toLowerCase().includes(q),
+		)
+		.slice(0, 5);
 });
 
 const goToResult = (tool: any) => {
@@ -79,7 +86,7 @@ const goToResult = (tool: any) => {
 				<input
 					v-model="searchQuery"
 					@focus="searchOpen = true"
-					@blur="setTimeout(() => searchOpen = false, 200)"
+					@blur="setTimeout(() => (searchOpen = false), 200)"
 					type="text"
 					placeholder="Rechercher un outil…"
 					class="bg-transparent w-full text-sm outline-none placeholder:text-subtext/60"
@@ -107,10 +114,14 @@ const goToResult = (tool: any) => {
 					@mousedown="goToResult(tool)"
 					class="flex items-center gap-3 w-full text-left px-5 py-3 hover:bg-surface-hover/50 transition-colors"
 				>
-					<span class="text-xl">{{ tool.emoji || '🔧' }}</span>
+					<span class="text-xl">{{ tool.emoji || "🔧" }}</span>
 					<div class="flex flex-col overflow-hidden">
-						<span class="font-semibold text-sm truncate">{{ tool.name }}</span>
-						<span class="text-xs text-subtext truncate">{{ tool.description }}</span>
+						<span class="font-semibold text-sm truncate">{{
+							tool.name
+						}}</span>
+						<span class="text-xs text-subtext truncate">{{
+							tool.description
+						}}</span>
 					</div>
 				</button>
 			</div>
@@ -123,19 +134,19 @@ const goToResult = (tool: any) => {
 			label="Gérer"
 			:icon="WrenchScrewdriverIcon"
 			btnStyle="PRIMARY"
-			:handler="() => { navigateTo('/manage') }"
+			handler="/manage"
 		/>
 		<Button
 			v-if="session"
 			label="Ma session"
 			btnStyle="LINK"
-			:handler="() => { navigateTo('/auth/login') }"
+			handler="/auth/login"
 		/>
 		<Button
 			v-else
 			label="Se connecter"
 			btnStyle="LINK"
-			:handler="() => { navigateTo('/auth/login') }"
+			handler="/auth/login"
 		/>
 	</nav>
 </template>

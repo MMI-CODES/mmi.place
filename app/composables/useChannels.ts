@@ -20,9 +20,7 @@ export const useChannels = () => {
 
 			const data = response as SerializeDates<Channel>[];
 
-			channels.value = data.sort(
-				(a, b) => a.id - b.id,
-			);
+			channels.value = data.sort((a, b) => a.id - b.id);
 		} catch (e) {
 			error.value = e as Error;
 		} finally {

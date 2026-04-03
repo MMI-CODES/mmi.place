@@ -11,7 +11,12 @@ export const useSettings = () => {
 	const { session } = useSession();
 
 	// Cookie partage avec les sous-domaines (.mmi.codes)
-	const getGroupsCookie = () => useCookie<any>("mmi_groups", { maxAge: 31536000, path: "/", sameSite: "lax" });
+	const getGroupsCookie = () =>
+		useCookie<any>("mmi_groups", {
+			maxAge: 31536000,
+			path: "/",
+			sameSite: "lax",
+		});
 
 	const loadSettings = async () => {
 		if (typeof window === "undefined") return;
@@ -19,15 +24,21 @@ export const useSettings = () => {
 		loading.value = true;
 		try {
 			// 1. Charger depuis le LocalStorage (UI en premier)
-			const localDataRaw = localStorage.getItem("mmi-place-settings") || null;
+			const localDataRaw =
+				localStorage.getItem("mmi-place-settings") || null;
 			let localData: Partial<Settings> | null = null;
 			if (localDataRaw) {
 				localData = JSON.parse(localDataRaw);
-				
+
 				// Versioning : Si ancienne version, on merge avec les valeurs par defaut pour ne pas perdre les nouvelles cles
 				if (!localData || localData.version !== "1.2") {
-					console.log("[Settings] Migration depuis une ancienne version de config...");
-					localData = defu(localData || {}, defaultSettings) as Settings;
+					console.log(
+						"[Settings] Migration depuis une ancienne version de config...",
+					);
+					localData = defu(
+						localData || {},
+						defaultSettings,
+					) as Settings;
 					localData.version = "1.2";
 				}
 				settings.value = localData as Settings;
@@ -38,8 +49,10 @@ export const useSettings = () => {
 			// 2. Mettre a jour depuis le Cookie si present (Priorite aux groupes PWA)
 			const cookieVal = getGroupsCookie().value;
 			if (cookieVal) {
-				if (cookieVal.vencat) settings.value.widgets.vencat.group = cookieVal.vencat;
-				if (cookieVal.planup) settings.value.widgets.planup.group = cookieVal.planup;
+				if (cookieVal.vencat)
+					settings.value.widgets.vencat.group = cookieVal.vencat;
+				if (cookieVal.planup)
+					settings.value.widgets.planup.group = cookieVal.planup;
 			}
 
 			applySettings();
@@ -48,16 +61,18 @@ export const useSettings = () => {
 			if (session.value?.id) {
 				await syncFromCloud();
 			} else {
-				// S'il n'est pas encore connecté, le session.value peut se remplir quelques millisecondes plus tard 
+				// S'il n'est pas encore connecté, le session.value peut se remplir quelques millisecondes plus tard
 				// (ex: retour d'auth OIDC invisible). On écoute ce changement pour recharger la config !
-				const unwatch = watch(() => session.value?.id, (newId) => {
-					if (newId) {
-						syncFromCloud();
-						unwatch(); // On ne l'exécute qu'une fois
-					}
-				});
+				const unwatch = watch(
+					() => session.value?.id,
+					(newId) => {
+						if (newId) {
+							syncFromCloud();
+							unwatch(); // On ne l'exécute qu'une fois
+						}
+					},
+				);
 			}
-
 		} catch (e) {
 			error.value = e as Error;
 		} finally {
@@ -67,10 +82,14 @@ export const useSettings = () => {
 
 	const syncFromCloud = async () => {
 		try {
-			const res = await $fetch<{ settings: Settings | null }>("/api/me/settings");
+			const res = await $fetch<{ settings: Settings | null }>(
+				"/api/me/settings",
+			);
 			if (res && res.settings && res.settings.version) {
-				console.log("[Settings] Configuration Cloud recuperee avec succes.");
-				
+				console.log(
+					"[Settings] Configuration Cloud recuperee avec succes.",
+				);
+
 				// On ecrase le local par le cloud (Source de verite)
 				// Migration si le cloud a une vieille version
 				let cloudData = res.settings;
@@ -78,9 +97,9 @@ export const useSettings = () => {
 					cloudData = defu(cloudData, defaultSettings) as Settings;
 					cloudData.version = "1.2";
 				}
-				
+
 				settings.value = cloudData;
-				
+
 				applySettings();
 				// On sauvegarde en local pour refleter le cloud
 				saveToLocal();
@@ -140,7 +159,7 @@ export const useSettings = () => {
 
 	const saveToLocal = () => {
 		if (typeof window === "undefined") return;
-		
+
 		try {
 			settings.value.version = "1.2";
 
@@ -166,7 +185,7 @@ export const useSettings = () => {
 		// Non bloquant en arriere plan
 		$fetch("/api/me/settings", {
 			method: "POST",
-			body: { settings: settings.value }
+			body: { settings: settings.value },
 		}).catch(console.error);
 	};
 

@@ -85,7 +85,11 @@ onMounted(refreshSession);
 
 			<div class="flex gap-3">
 				<Button
-					:label="session.authenticated ? 'Changer de compte' : 'Se connecter'"
+					:label="
+						session.authenticated
+							? 'Changer de compte'
+							: 'Se connecter'
+					"
 					btnStyle="NEUTRAL"
 					:handler="startLogin"
 				/>

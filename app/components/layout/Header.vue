@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/outline";
-import { ChevronUpIcon, ChevronDownIcon, WrenchScrewdriverIcon } from "@heroicons/vue/24/solid";
+import {
+	ChevronUpIcon,
+	ChevronDownIcon,
+	WrenchScrewdriverIcon,
+} from "@heroicons/vue/24/solid";
 
 import HeaderMessage from "../cards/HeaderMessage.vue";
 import HeaderCourse from "../cards/HeaderCourse.vue";
@@ -43,12 +47,15 @@ const startWidgetInterval = () => {
 onMounted(() => {
 	document.addEventListener("keypress", (event) => {
 		if (!widgets.value.length) return;
-		
+
 		const target = event.target as HTMLElement;
-		if (target && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)) return;
+		if (target && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))
+			return;
 
 		if (event.key === "+") {
-			widget.value = (widget.value - 1 + widgets.value.length) % widgets.value.length;
+			widget.value =
+				(widget.value - 1 + widgets.value.length) %
+				widgets.value.length;
 		} else if (event.key === "-") {
 			widget.value = (widget.value + 1) % widgets.value.length;
 		}
@@ -64,7 +71,7 @@ onMounted(() => {
 		() => [
 			settings.value.widgets.carrousel,
 			settings.value.widgets.carrouselRate,
-			widgets.value.length
+			widgets.value.length,
 		],
 		() => {
 			if (widget.value >= widgets.value.length) {
@@ -97,11 +104,7 @@ onMounted(() => {
 			<div class="flex gap-2 overflow-x-auto">
 				<Button
 					:icon="AdjustmentsHorizontalIcon"
-					:handler="
-						() => {
-							navigateTo('/settings');
-						}
-					"
+					handler="/settings"
 				/>
 				<div class="flex gap-6 ml-4 overflow-x-auto">
 					<Button
@@ -119,7 +122,10 @@ onMounted(() => {
 			@mouseenter="clearWidgetInterval"
 			@mouseleave="startWidgetInterval"
 		>
-			<div class="group shrink-0 flex flex-col items-center gap-2 w-fit" v-if="widgets.length > 1">
+			<div
+				class="group shrink-0 flex flex-col items-center gap-2 w-fit"
+				v-if="widgets.length > 1"
+			>
 				<motion.div
 					v-for="index in widgets.length"
 					:key="index"
