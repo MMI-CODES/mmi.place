@@ -1,5 +1,5 @@
 {
-  "name": "mmi-place-serverless",
+  "name": "mmi-place",
   "private": true,
   "type": "module",
   "version": "0.1.0",
@@ -7,7 +7,7 @@
     "dev": "nuxt dev",
     "build": "nuxt generate",
     "generate": "nuxt generate",
-    "preview": "set HOST=127.0.0.1&& nuxt preview",
+    "preview": "npx serve .output/public",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {

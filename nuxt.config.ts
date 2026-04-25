@@ -1,5 +1,18 @@
 import tailwindcss from "@tailwindcss/vite";
 
+const env = process.env;
+const siteName = env.NUXT_PUBLIC_SITE_NAME || "MMI Place";
+const siteDescription = env.NUXT_PUBLIC_SITE_DESCRIPTION || "La plateforme communautaire pour les etudiants MMI.";
+const siteUrl = env.NUXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const siteBasePath = (() => {
+  try {
+    const pathname = new URL(siteUrl).pathname.replace(/\/+$/, "");
+    return pathname || "/";
+  } catch {
+    return "/";
+  }
+})();
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   ssr: false,
@@ -8,30 +21,42 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
   runtimeConfig: {
     public: {
-      supabaseUrl: process.env.VITE_SUPABASE_URL || "",
-      supabaseAnonKey: process.env.VITE_SUPABASE_ANON_KEY || "",
+      siteName,
+      siteDescription,
+      siteUrl,
+      supabaseUrl: env.NUXT_PUBLIC_SUPABASE_URL || env.VITE_SUPABASE_URL || "",
+      supabaseAnonKey: env.NUXT_PUBLIC_SUPABASE_ANON_KEY || env.VITE_SUPABASE_ANON_KEY || "",
     },
   },
   vite: {
     plugins: [tailwindcss()],
   },
   app: {
+    baseURL: siteBasePath,
     head: {
-      title: "MMI Place",
+      title: siteName,
       link: [
         {
+          rel: "canonical",
+          href: siteUrl,
+        },
+        {
           rel: "apple-touch-icon",
-          href: "/pwa-192x192.png",
+          href: `${siteBasePath}pwa-192x192.png`,
         },
       ],
       meta: [
         {
           name: "description",
-          content: "MMI Place frontend app using mmi-core SDK",
+          content: siteDescription,
         },
         { name: "theme-color", content: "#0f172a" },
         { name: "apple-mobile-web-app-capable", content: "yes" },
         { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+        { property: "og:title", content: siteName },
+        { property: "og:description", content: siteDescription },
+        { property: "og:url", content: siteUrl },
+        { property: "og:type", content: "website" },
       ],
     },
   },
@@ -39,36 +64,36 @@ export default defineNuxtConfig({
     registerType: "autoUpdate",
     includeAssets: ["favicon.ico", "icon.png", "icon.svg", "pwa-192x192.png", "pwa-512x512.png"],
     manifest: {
-      id: "/",
-      name: "MMI Place",
-      short_name: "MMI Place",
-      description: "La plateforme communautaire pour les étudiants MMI.",
+      id: siteBasePath,
+      name: siteName,
+      short_name: siteName,
+      description: siteDescription,
       theme_color: "#0f172a",
       background_color: "#0f172a",
       display: "standalone",
       orientation: "portrait-primary",
-      scope: "/",
-      start_url: "/",
+      scope: siteBasePath,
+      start_url: siteBasePath,
       categories: ["education", "productivity"],
       icons: [
         {
-          src: "/pwa-192x192.png",
+          src: `${siteBasePath}pwa-192x192.png`,
           sizes: "192x192",
           type: "image/png",
         },
         {
-          src: "/pwa-512x512.png",
+          src: `${siteBasePath}pwa-512x512.png`,
           sizes: "512x512",
           type: "image/png",
         },
         {
-          src: "/pwa-512x512.png",
+          src: `${siteBasePath}pwa-512x512.png`,
           sizes: "512x512",
           type: "image/png",
           purpose: "any",
         },
         {
-          src: "/pwa-512x512.png",
+          src: `${siteBasePath}pwa-512x512.png`,
           sizes: "512x512",
           type: "image/png",
           purpose: "maskable",
@@ -76,7 +101,7 @@ export default defineNuxtConfig({
       ],
     },
     workbox: {
-      navigateFallback: "/",
+      navigateFallback: `${siteBasePath}index.html`,
       globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
       cleanupOutdatedCaches: true,
       skipWaiting: true,

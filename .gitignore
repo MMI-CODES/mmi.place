@@ -1,8 +1,16 @@
 node_modules
 .nuxt
 .output
+coverage
+.vercel
+.netlify
+.cache
+.DS_Store
 .env
 .env.*
 !.env.example
 dist
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
