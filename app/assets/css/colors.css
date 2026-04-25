@@ -1,0 +1,98 @@
+:root,
+:root.theme-light.contrast-normal,
+:root.theme-light {
+  --clr-primary: #54137a;
+  --clr-primary-hover: #481069;
+  --clr-primary-transparent: #54137a2f;
+  --clr-primary-transparent-hover: #54137a50;
+  --clr-on-primary-transparent: #54137a;
+
+  --clr-button: #00000006;
+  --clr-button-hover: #0000000a;
+  --clr-button-border: #0000000b;
+  --clr-on-button: #30363f;
+
+  --clr-surface: rgba(255, 255, 255, 0.62);
+  --clr-surface-hover: rgba(255, 255, 255, 0.78);
+  --clr-surface-border: #00000012;
+  --clr-on-surface: #30363f;
+
+  --clr-popup: rgba(255, 255, 255, 0.92);
+  --clr-popup-border: #00000012;
+  --clr-on-popup: #30363f;
+
+  --clr-subtext: #80868f;
+}
+
+:root.theme-dark.contrast-normal,
+:root.theme-dark {
+  --clr-primary: #37bce0;
+  --clr-primary-hover: #26b6dd;
+  --clr-primary-transparent: #37bce02f;
+  --clr-primary-transparent-hover: #37bce050;
+  --clr-on-primary-transparent: #37bce0;
+
+  --clr-button: #ffffff07;
+  --clr-button-hover: #ffffff0d;
+  --clr-button-border: #ffffff10;
+  --clr-on-button: #c9d2df;
+
+  --clr-surface: #ffffff0b;
+  --clr-surface-hover: #ffffff12;
+  --clr-surface-border: #ffffff14;
+  --clr-on-surface: #e5edf7;
+
+  --clr-popup: rgba(17, 24, 39, 0.92);
+  --clr-popup-border: #ffffff14;
+  --clr-on-popup: #f3f6fb;
+
+  --clr-subtext: #a0a9b8;
+}
+
+:root.contrast-high {
+  --clr-primary: #13161f;
+  --clr-primary-hover: #03060f;
+  --clr-primary-transparent: #13161f;
+  --clr-primary-transparent-hover: #03060f;
+  --clr-on-primary-transparent: #ffffff;
+
+  --clr-button: transparent;
+  --clr-button-hover: #03060f0f;
+  --clr-button-border: #000000;
+  --clr-on-button: #13161f;
+
+  --clr-surface: #ffffff;
+  --clr-surface-hover: #f5f5f5;
+  --clr-surface-border: #d0d6df;
+  --clr-on-surface: #000000;
+
+  --clr-popup: #ffffff;
+  --clr-popup-border: #d0d6df;
+  --clr-on-popup: #000000;
+
+  --clr-subtext: #3f4651;
+}
+
+:root.theme-dark.contrast-high {
+  --clr-primary: #ffffff;
+  --clr-primary-hover: #ffffff;
+  --clr-primary-transparent: #ffffff;
+  --clr-primary-transparent-hover: #ffffff;
+  --clr-on-primary-transparent: #13161f;
+
+  --clr-button: transparent;
+  --clr-button-hover: #ffffff0f;
+  --clr-button-border: #ffffff;
+  --clr-on-button: #ffffff;
+
+  --clr-surface: #20262f;
+  --clr-surface-hover: #2a3039;
+  --clr-surface-border: #40464f;
+  --clr-on-surface: #ffffff;
+
+  --clr-popup: #20262f;
+  --clr-popup-border: #40464f;
+  --clr-on-popup: #ffffff;
+
+  --clr-subtext: #d9e0ea;
+}

@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap");
+@import url("colors.css");
+@import url("typography.css");
+@import url("sizing.css");
+@import url("blog.css");
+@import "tailwindcss";
+
+@theme {
+  --color-subtext: var(--clr-subtext);
+  --color-primary: var(--clr-primary);
+  --color-primary-hover: var(--clr-primary-hover);
+  --color-primary-transparent: var(--clr-primary-transparent);
+  --color-primary-transparent-hover: var(--clr-primary-transparent-hover);
+  --color-on-primary: #ffffff;
+  --color-on-primary-transparent: var(--clr-on-primary-transparent);
+  --color-danger: #ff0040;
+  --color-danger-hover: #eb003b;
+  --color-on-danger: #ffffff;
+  --color-success: #1eca68;
+  --color-success-hover: #1bb95f;
+  --color-on-success: #ffffff;
+  --color-button: var(--clr-button);
+  --color-button-hover: var(--clr-button-hover);
+  --color-button-border: var(--clr-button-border);
+  --color-on-button: var(--clr-on-button);
+  --color-surface: var(--clr-surface);
+  --color-surface-hover: var(--clr-surface-hover);
+  --color-surface-border: var(--clr-surface-border);
+  --color-on-surface: var(--clr-on-surface);
+  --color-popup: var(--clr-popup);
+  --color-popup-border: var(--clr-popup-border);
+  --color-on-popup: var(--clr-on-popup);
+  --font-sans: var(--font-sans);
+  --text-xs: calc(var(--txt-base) * 0.75);
+  --text-sm: calc(var(--txt-base) * 0.875);
+  --text-base: var(--txt-base);
+  --text-lg: calc(var(--txt-base) * 1.125);
+  --text-xl: calc(var(--txt-base) * 1.25);
+  --text-2xl: calc(var(--txt-base) * 1.5);
+  --text-3xl: calc(var(--txt-base) * 2);
+  --text-4xl: calc(var(--txt-base) * 3);
+}
+
+* { @apply transition-colors duration-500; }
+
+:root body {
+  @apply min-h-screen text-[#30363f];
+  font-size: var(--text-base);
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(circle at 12% 16%, rgba(170, 0, 255, 0.14), transparent 26%),
+    radial-gradient(circle at 85% 18%, rgba(0, 55, 255, 0.12), transparent 28%),
+    radial-gradient(circle at 70% 80%, rgba(0, 255, 132, 0.11), transparent 24%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(245, 247, 251, 0.9));
+}
+
+:root.theme-light body {
+  @apply text-[#30363f];
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(circle at 12% 16%, rgba(170, 0, 255, 0.14), transparent 26%),
+    radial-gradient(circle at 85% 18%, rgba(0, 55, 255, 0.12), transparent 28%),
+    radial-gradient(circle at 70% 80%, rgba(0, 255, 132, 0.11), transparent 24%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(245, 247, 251, 0.9));
+}
+
+:root.theme-dark body {
+  @apply text-[#f0f6ff];
+  background-color: #020617;
+  background-image:
+    radial-gradient(circle at 16% 12%, rgba(55, 188, 224, 0.1), transparent 24%),
+    radial-gradient(circle at 82% 22%, rgba(87, 37, 149, 0.08), transparent 28%),
+    radial-gradient(circle at 78% 78%, rgba(16, 185, 129, 0.06), transparent 22%),
+    linear-gradient(160deg, rgba(4, 8, 20, 0.995), rgba(2, 6, 23, 1));
+}
+
+:root.theme-dark body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(2, 6, 23, 0.15), rgba(2, 6, 23, 0.55)),
+    radial-gradient(circle at 50% -10%, rgba(255, 255, 255, 0.03), transparent 34%);
+  z-index: -1;
+}
+
+:root.theme-light.contrast-high body {
+  @apply text-black;
+  background-color: #ffffff;
+  background-image: none;
+}
+
+:root.theme-dark.contrast-high body {
+  @apply text-white;
+  background-color: #000000;
+  background-image: none;
+}
+#__nuxt {
+  @apply flex flex-col items-center justify-start gap-y-6 p-6 w-full min-h-screen sm:p-8;
+}

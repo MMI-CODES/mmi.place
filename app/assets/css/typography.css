@@ -1,0 +1,46 @@
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("@/assets/fonts/OpenDyslexic3-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("@/assets/fonts/OpenDyslexic3-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+:root {
+  --txt-base: 16px;
+  --font-sans: "SN Pro", Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --txt-coeff: 1;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --txt-coeff: 0.9;
+  }
+}
+
+:root.text-medium {
+  --txt-base: calc(16px * var(--txt-coeff));
+}
+
+:root.text-small {
+  --txt-base: calc(13px * var(--txt-coeff));
+}
+
+:root.text-large {
+  --txt-base: calc(19px * var(--txt-coeff));
+}
+
+:root.apply-dyslexia {
+  --font-sans: "OpenDyslexic", sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+}
